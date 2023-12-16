@@ -1,0 +1,49 @@
+body {
+    box-sizing: border-box;
+    background-color: #F9FAFB;
+}
+.bgCarImage{
+    background-image: url('../../../public/cartimer.png');
+    background-repeat: no-repeat;
+    background-position: 100%;
+    background-color: white;
+    /* position: relative; */
+    z-index: 3;
+}
+.bgCarImage::after{
+    content: " ";
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: -1;
+    background-color: #1AA9E5;
+
+}
+.bgLine{ 
+    position: relative;
+}
+.bgLine::before{
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: -1;
+    background-color: #1AA9E5;
+
+}
+.bgLine::after{
+    content: " ";
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: -1;
+
+    background-color: #1AA9E5;
+  
+}

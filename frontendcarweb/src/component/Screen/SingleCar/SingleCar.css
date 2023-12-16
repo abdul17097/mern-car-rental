@@ -1,0 +1,18 @@
+.rdrMonth{
+    width: 100%;
+    height: fit-content;
+}
+
+.rdrDateDisplayItem::after{
+    content: 'DROP-OFF DATE';
+    width: 100px;
+    font-size: 12px;
+    color: black; 
+}
+
+.rdrDateDisplayItemActive::after{
+    content: 'PICK-UP DATE';
+    width: 100px;
+    font-size: 12px;
+    color: black;
+}

@@ -1,0 +1,23 @@
+.bgImage{
+    background-image: url('../../../public//cars.jpg');
+    background-size: cover;
+    background-position: 50%;
+    position: relative;
+}
+.bgImage::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgb(134, 107, 143);
+    opacity: .5;
+}
+.build_pic{
+    background-image: url('../../../public/bg_1.jpg');
+    background-size: cover;
+    /* background-origin: border-box; */
+    position: relative;
+    background-repeat: no-repeat;
+}
