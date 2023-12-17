@@ -30,6 +30,10 @@ export const Header = () => {
       to: "/register",
       linkText: "Signup",
     },
+    // {
+    //   to: "/dashboard",
+    //   linkText: "Dashboard",
+    // },
   ];
 
   const variants = {

@@ -14,6 +14,7 @@ import AboutUs from './component/Screen/About Us/AboutUs'
 import {gapi} from 'gapi-script'
 import { Contact } from './component/Screen/Contact/Contact'
 import "./App.css"
+import { Admin } from './component/AdminPannel/Admin'
 function App() {
     function start(){
       gapi.client.init({
@@ -36,6 +37,7 @@ function App() {
       <Route path='/singlecar/:id' element={<SingleCar/>}/>
       <Route path='/about' element={<AboutUs/>}/>
       <Route path='/contact' element={<Contact/>} />
+      {/* <Route path='/dashboard' element={<Admin/>} /> */}
 
     </Routes>
     </>

@@ -8,7 +8,7 @@ export const HeroSection = () => {
             Find your dreams 
             car within a minute 
           </h2>
-          <p className="lg:w-[70%] text-lg">Lorem ipsum dolor sit consectetur adipisicing elit. Voluptatibus,  sit consectetur adipisicing elit perferendis.</p>
+          <p className="lg:w-[70%] text-lg">Unlock your adventure with hassle-free car rentals. Explore freedom on wheels. Book now!</p>
         </div>
         <div className="">
           <img src="/audi a1.png" alt="" className="lg:relative "/>

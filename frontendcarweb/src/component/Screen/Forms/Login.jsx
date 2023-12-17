@@ -99,9 +99,9 @@ export const Login = () => {
           <div className="flex justify-center mt-5">
             <p>Dont have an account? <NavLink to="/register" className="border py-3 px-2 rounded-md font-bold text-xs">CREATE AN ACCOUNT</NavLink></p>
           </div>
-          <div className="flex justify-center mt-5">
+          {/* <div className="flex justify-center mt-5">
             <p>Forgot your password? <NavLink className="border py-3 px-2 rounded-md font-bold text-xs">PASSWORD RESET</NavLink></p>
-          </div>
+          </div> */}
         </form>
         </motion.div>
         </AnimatePresence>

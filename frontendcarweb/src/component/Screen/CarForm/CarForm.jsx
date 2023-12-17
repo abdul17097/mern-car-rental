@@ -44,10 +44,11 @@ const CarForm = () => {
   };
 
   return (
-    <div className="mt-10 flex justify-center ">
+    <div className="mt-10 flex flex-col justify-center ">
+      <h1 className="font-semibold text-4xl">Add New Vehicle</h1>
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md w-5/6 flex border-8 flex-col rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white shadow-md w-6/6 flex border-8 flex-col rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="flex justify-between gap-5">
           <div className="mb-4 w-full">

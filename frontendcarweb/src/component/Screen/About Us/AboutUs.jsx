@@ -8,7 +8,7 @@ const AboutUs = () => {
         <img
           src="/aboutus.jpg"
           alt=""
-          className="relative object-cover bottom-20 h-[400px] w-[100%]"
+          className="relative object-cover bottom-20  h-[400px] w-[100%]"
         />
       </div>
       <div className="md:hidden">
