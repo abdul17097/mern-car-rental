@@ -7,6 +7,7 @@ import { fetchCar } from "../../actions/carAction";
 import { useDispatch } from "react-redux";
 import HomeSearch from "./Search/HomeSearch";
 import { OfferExperiance } from "./Search/OfferExperiance";
+import { Catagoryies } from "./Search/Catagoryies";
 
 export const Home = () => {
   const businessBanner = {
@@ -32,7 +33,9 @@ export const Home = () => {
     <>
       <HeroSection />
       <HomeSearch/>
-      <div className="w-5/5 mb-12">
+      <Catagoryies/>
+
+      <div className="w-5/5 py-10 mb-12">
         <div className="bgLine   w-full">
           <div className=" mx-3 md:mx-20  bg-[#FEFEFE] shadow-lg flex  md:gap-20 flex-col  md:justify-between p-4 md:p-10 bgCarImage   rounded-lg">
             <div className="w-5/5 flex flex-col  ">
