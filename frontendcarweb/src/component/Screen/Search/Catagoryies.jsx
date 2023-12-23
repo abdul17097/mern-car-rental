@@ -8,7 +8,7 @@ export const Catagoryies = () => {
             <div className="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:justify-around md:item-center md:justify-between  gap-5">
                 <NavLink to="" className="">
                     <div className="flex flex-col items-center gap-2 hover:border p-5 hover:rounded-xl hover:shadow-xl">
-                        <img src="/budget.png" alt="" className="w-60 h-32 "/>
+                        <img src="/budget.png" alt="" className="w-60 h-32 hover:bg-[red] "/>
                         <h2 className="text-[18px] text-[#005085] font-bold">Budget</h2>
                         <p className="text-[18px] font-thin">Daihastu Mira or similar</p>
                     </div>

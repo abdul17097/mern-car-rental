@@ -15,6 +15,7 @@ import {gapi} from 'gapi-script'
 import { Contact } from './component/Screen/Contact/Contact'
 import "./App.css"
 import { Admin } from './component/AdminPannel/Admin'
+import { Footer } from './component/Footer/Footer'
 function App() {
     function start(){
       gapi.client.init({
@@ -40,6 +41,7 @@ function App() {
       {/* <Route path='/dashboard' element={<Admin/>} /> */}
 
     </Routes>
+    <Footer/>
     </>
   )
 }
