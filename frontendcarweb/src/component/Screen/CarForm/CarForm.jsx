@@ -44,8 +44,8 @@ const CarForm = () => {
   };
 
   return (
-    <div className="mt-10 flex flex-col justify-center ">
-      <h1 className="font-semibold text-4xl">Add New Vehicle</h1>
+    <div className="mt-10 border w-[80vw] flex flex-col justify-center ">
+      <h1 className="font-semibold text-4xl py-5">Add New Vehicle</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md w-6/6 flex border-8 flex-col rounded px-8 pt-6 pb-8 mb-4"

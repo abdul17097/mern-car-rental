@@ -3,6 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdCarRental } from "react-icons/md";
 import { MdEventAvailable } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 export const Dashboard = () => {
   return (
     <div className="flex flex-col pt-5 gap-5">
@@ -11,11 +12,11 @@ export const Dashboard = () => {
         <div className="flex gap-4">
           <div className="flex flex-row gap-3 shadow button items-center border py-2 px-8 rounded-3xl">
             <IoMdAdd />
-            <span className="">Add Users</span>
+            <NavLink to="/register" className="">Add Users</NavLink>
           </div>
           <div className="flex flex-row gap-3 shadow button items-center border py-2 px-8 rounded-3xl">
             <IoMdAdd />
-            <span className="">Add Vechiles</span>
+            <NavLink to="/addCar" className="">Add Vechiles</NavLink>
           </div>
           <div className="flex flex-row gap-3 shadow  items-center border py-2 px-8 rounded-3xl">
             <IoPersonOutline />

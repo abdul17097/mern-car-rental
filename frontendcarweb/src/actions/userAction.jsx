@@ -7,7 +7,6 @@ export const userLogin = ({email,password})=> async (dispatch)=>{
         
         dispatch({type: USER_LOGIN_REQUEST })
         
-        console.log("data")
         const {data} = await axios.post(
             "http://localhost:7000/api/login",
             {

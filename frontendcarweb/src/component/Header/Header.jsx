@@ -46,6 +46,11 @@ export const Header = () => {
     closed: { rotate: 0 },
   };
 
+  const logout = ()=>{
+    console.log("hello");
+    localStorage.removeItem('userInfo')
+  
+  }
   return (
     <>
       <motion.div
@@ -99,8 +104,8 @@ export const Header = () => {
               <ul className="h-[90vh]  lg:h-full flex flex-col items-center gap-6 p-4 lg:p-0 flex justify-center   lg:flex-row ">
                 {links.map((element, index) => (
                   <motion.li
-                    initial={{ opacity: 0, x: 350, y: 100 }}
-                    whileInView={{ opacity: 5, x: 0, y: 0 }}
+                    initial={{ opacity: 0, x: 100, y: 100 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
                     transition={{ duration: "0.5", delay: index * 0.12 }}
                     key={index}
                     viewport={{ once: true }}
@@ -116,6 +121,15 @@ export const Header = () => {
                     </NavLink>
                   </motion.li>
                 ))}
+                <li className="">
+                <NavLink
+                      to="/logout"
+                      onClick={logout}
+                      className="block opacity-100 py-2 focus:border-b-2  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
+                    >
+                      Logout
+                    </NavLink>
+                </li>
               </ul>
             </motion.div>
           {/* )} */}

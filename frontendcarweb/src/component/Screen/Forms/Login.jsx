@@ -33,10 +33,14 @@ export const Login = () => {
       toast("Successfully Login")
     }
   }
+  const role = {
+    isAdmin: true
+  }
   return (
     <div className="flex flex-col w-6/6  px-5 md:px-14">
       
       <div className="w-6/6  flex md:flex-row flex-col">
+        {role.isAdmin && 
             <motion.div
             initial={{ opacity: 0 , x: -100  }}
             whileInView={{ opacity: 5, x: 0 }}
@@ -54,6 +58,7 @@ export const Login = () => {
           </p>
         </div>
         </motion.div>
+}
         <AnimatePresence>
         <motion.div
             initial={{ opacity: 0 , y: 100  }}
@@ -87,7 +92,7 @@ export const Login = () => {
 
               />
             </div>
-          <input type="submit" className="border button py-2 rounded-md bg-blue-500 text-white" value="LOGIN"/>
+          <input type="submit" className="border button py-2 cursor-pointer rounded-md bg-blue-500 text-white" value="LOGIN"/>
           {/* <GoogleLogin
             onSuccess = {onSuccess}
             onError = {onFailure}

@@ -16,6 +16,11 @@ import { Contact } from './component/Screen/Contact/Contact'
 import "./App.css"
 import { Admin } from './component/AdminPannel/Admin'
 import { Footer } from './component/Footer/Footer'
+import { Cars } from './component/AdminPannel/Cars'
+import User from './component/AdminPannel/User'
+import { Sidebar } from './component/AdminPannel/Sidebar'
+import { Dashboard } from './component/AdminPannel/Dashboard'
+import WhatsAppButton from './component/WhatsAppButton/WhatsAppButton'
 function App() {
     function start(){
       gapi.client.init({
@@ -24,24 +29,46 @@ function App() {
       })
       gapi.load('client: auth2', start)
     }
+    const role = {
+      isAmdin: false, 
+    }
+    
   return (
     <>
        <ToastContainer/>
+       {!role.isAmdin? 
+       <>
     <Header/>
+    <WhatsAppButton/>
     <Routes>
-      {/* <Route path='/' element={<Home/>}/> */}
       <Route path='/' element={<Home/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/allCar' element={<AllCar/>}/>
-      <Route path='/addCar' element={<CarForm/>}/>
       <Route path='/singlecar/:id' element={<SingleCar/>}/>
       <Route path='/about' element={<AboutUs/>}/>
       <Route path='/contact' element={<Contact/>} />
-      {/* <Route path='/dashboard' element={<Admin/>} /> */}
-
     </Routes>
     <Footer/>
+    </>
+      :  
+      <>
+      <div className="flex h-[100vh] w-[100vw] ">
+
+      <Sidebar/>
+      <div className="flex flex-col p-5 gap-2 relative left-[16vw]">
+      <Routes>
+      <Route path='/register' element={<Register/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/addCar' element={<CarForm/>}/>
+      <Route path='/' element={<Dashboard/>} />
+      <Route path='/cars' element={<Cars/>} />
+      <Route path='/users' element={<User/>} />
+    </Routes>
+    </div>
+    </div>
+    </>
+      }
     </>
   )
 }
