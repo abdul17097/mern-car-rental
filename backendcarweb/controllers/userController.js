@@ -66,6 +66,7 @@ const loginUser = async (req, res) => {
           token: token,
           name: user.name,
           email: user.email,
+          isAdmin: user.isAdmin
         },
       });
     }else{

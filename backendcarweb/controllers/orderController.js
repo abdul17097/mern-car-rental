@@ -1,4 +1,4 @@
-const Order = require('../model/orderModel');
+const Order = require('../model/bookingModel');
 const stripe = require("stripe")("sk_test_51Nw5ZFGtDzrOQD3FjkoGtgSoJ3LHqVJpeOaSzmheaJ1AYjYQpTFlMRLnmaGou70X9pKAmm6uDWHCazqdA1SQxmI3005nIkhCkU");
 const order = async (req,res)=>{
     try {

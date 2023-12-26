@@ -6,7 +6,14 @@ import { IoIosLogOut } from "react-icons/io";
 import { RiParentFill } from "react-icons/ri";
 import { FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import {useDispatch} from "react-redux"
+import {userLogout} from "../../actions/userAction"
 export const Sidebar = () => {
+  const dispatch = useDispatch();
+  const logout = ()=>{
+    dispatch(userLogout("Successfully Logout!"))
+    localStorage.removeItem("userInfo")
+  }
   return (
     <div className="border-r px-5 py-10 w-[16vw] fixed h-screen flex flex-col dark text-white p">
       <div className="text-xl   lg:text-[28px] italic  font-mono  text-white ">
@@ -41,7 +48,7 @@ export const Sidebar = () => {
         <NavLink>
           <li className="flex gap-2 text-lg items-center">
             <IoIosLogOut className="text-xl"  />
-            <span className="text-lg font-thin">Sign out</span>
+            <span onClick={logout} className="text-lg font-thin">Sign out</span>
           </li>
         </NavLink>
         <NavLink to="/addCar">

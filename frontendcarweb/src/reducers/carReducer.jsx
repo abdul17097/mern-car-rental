@@ -8,7 +8,6 @@ const initialState = {
 }
 
 export const carReducer = (state = initialState, action)=>{
-    console.log(action.payload);
     switch (action.type) {
         case CAR_LIST_REQUEST:
             return {

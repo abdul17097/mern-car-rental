@@ -1,4 +1,5 @@
 import {
+  USER_LOGIN,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
@@ -6,12 +7,13 @@ import {
     USER_SIGNUP_REQUEST,
     USER_SIGNUP_SUCCESS,
   } from "../ActionTypes/userAcitonTypes";
+import { USER_LOGOUT } from "../constants/userConstant";
   
   const initialState = {
-    userInfo: [],
+    userInfo: [] || localStorage.getItem("userInfo"),
     loading: false,
     success: false,
-    error: '',
+    message: '',
   };
   
   export const userReducer = (state = initialState, action) => {
@@ -21,25 +23,43 @@ import {
         return {
           ...state,
           loading: true,
-          error: '', // Clear any previous errors
+          message: action.payload, // Clear any previous errors
         };
   
       case USER_LOGIN_SUCCESS:
+        console.log(action.payload.data)
+        return {
+          ...state,
+          userInfo: action.payload.data,
+          loading: false,
+          success: true,
+          message: action.payload.message, // Clear any previous errors
+        };
       case USER_SIGNUP_SUCCESS:
         return {
           ...state,
           userInfo: action.payload,
           loading: false,
           success: true,
-          error: '', // Clear any previous errors
+          message: action.payload, // Clear any previous errors
         };
+      case USER_LOGOUT:
+        return {
+          ...state,
+          userInfo: [],
+        }
+      case USER_LOGIN:
+        return{
+          ...state,
+          userInfo: action.payload
+        }
   
       case USER_LOGIN_FAIL:
       case USER_SIGNUP_FAIL:
         return {
           ...state,
           loading: false,
-          error: action.payload, // Set the error message from the action payload
+          message: action.payload, // Set the message message from the action payload
         };
   
       default:

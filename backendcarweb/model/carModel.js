@@ -11,8 +11,9 @@ const carSchema = new mongoose.Schema({
     'image':{
         type: String
     },
-    'year': {
-        type: String,
+    'AC': {
+        type: Boolean,
+        default: false
     },
     'color': {
         type: String,
@@ -23,7 +24,7 @@ const carSchema = new mongoose.Schema({
     'transmission': {
         type: String,
     },
-    'maxSpeed': {
+    'door': {
         type: Number,
     },
     'feulType': {
@@ -36,7 +37,7 @@ const carSchema = new mongoose.Schema({
     'seat': { type: String},
     'reverseCamera': { type: Boolean, default: false },
     'bluetooth': { type: Boolean, default: false},
-    'fmRadio': { type: Boolean, default: false},
+    'wheel': { type: Number},
     'climateControl': { type: Boolean, default: false}
  
      

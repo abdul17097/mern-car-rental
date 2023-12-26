@@ -15,15 +15,19 @@ const bookingSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'users'
       },
-      totalPrice: {
-          type: Number,
-          required: true
+      bookedTimeSlots :{
+        from:{type:String},
+        to:{type:String}
       },
-      orderDate: {
-          type: Date,
-          default: Date.now
-      }
-});
+      totalHours:{type:Number},
+      totalAmount:{type:Number},
+      transactionId:{type:String},
+      driverRequired:{type:Boolean},
+      pickupAddress:{type:String},
+      place:{type:String}
+},
+{timestamps:true}
+);
 
 
 const BookingModel = mongoose.model('bookingModel', bookingSchema);

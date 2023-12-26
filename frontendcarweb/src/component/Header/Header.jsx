@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../Header/Header.css";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { userLogout } from "../../actions/userAction";
+import {useDispatch} from "react-redux"
 export const Header = () => {
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate()
   const links = [
     {
       to: "/",
@@ -45,12 +47,14 @@ export const Header = () => {
     open: { rotate: 90 },
     closed: { rotate: 0 },
   };
-
+  const dispatch = useDispatch()
   const logout = ()=>{
-    console.log("hello");
+    dispatch(userLogout("Successfully Logout!"))
     localStorage.removeItem('userInfo')
+    // navigate("/")
   
   }
+  
   return (
     <>
       <motion.div
@@ -115,20 +119,19 @@ export const Header = () => {
                     <NavLink
                       to={element.to}
                       onClick={()=> setToggle(!toggle)}
-                      className="block opacity-100 py-2 focus:border-b-2  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
+                      className="block opacity-100 py-2 focus:border-b-2 focus:border-[#E69A2B]  hover:border-b-2 hover:border-[#E69A2B] font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
                     >
                       {element.linkText}
                     </NavLink>
                   </motion.li>
                 ))}
                 <li className="">
-                <NavLink
-                      to="/logout"
+                <button
                       onClick={logout}
                       className="block opacity-100 py-2 focus:border-b-2  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
                     >
                       Logout
-                    </NavLink>
+                    </button>
                 </li>
               </ul>
             </motion.div>

@@ -3,13 +3,15 @@ import "./form.css";
 import {toast} from 'react-toastify';
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion"
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { GoogleLogin } from '@react-oauth/google';
 import { userLogin } from "../../../actions/userAction";
+import {useNavigate} from 'react-router-dom'
 export const Login = () => {
   const [userData, setUserData] = useState({email:"",password:""})
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
+  const state = useSelector(state => state.userReducer)
   // const onSuccess = ()=>{
   //   console.log("LOGIN SUCCESS! CURRENT USER:", res.profileobj);
   // }
@@ -30,7 +32,11 @@ export const Login = () => {
       toast("please enter password")
     }else{
       dispatch(userLogin(userData))
-      toast("Successfully Login")
+      console.log(state.success)
+      if(state.success){
+        toast("Successfully Login");
+        navigate('/')
+      }
     }
   }
   const role = {

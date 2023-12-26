@@ -12,8 +12,8 @@ const WhatsAppButton = () => {
   };
 
   return (
-    <div className="fixed z-[999] bottom-10  right-10 ">
-      <button className=" rounded-[50%] wave text-[green]" onClick={handleWhatsAppClick}>
+    <div className="fixed z-[999] bottom-5 lg:bottom-10  right-5 lg:right-10 ">
+      <button className=" rounded-[50%] wave text-white lg:p-4 p-2 bg-[#25D366]" onClick={handleWhatsAppClick}>
         <FaWhatsapp className="text-[50px]"/>
       </button>
     </div>

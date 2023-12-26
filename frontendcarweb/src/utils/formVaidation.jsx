@@ -1,17 +1,17 @@
 const carAddValidation = ({
   name,
   catagory,
-  year,
+  AC,
   color,
   mileage,
   transmission,
-  maxSpeed,
+  door,
   feulType,
   price,
   seat,
   reverseCamera,
   bluetooth,
-  fmRadio,
+  wheel,
   climateControl,
   image
 }) => {
@@ -19,16 +19,16 @@ const carAddValidation = ({
         return "Please Enter a name"
     }else if(!catagory){
         return "Please Select a catagory"
-    }else if(!year){
-        return "Please Enter a year"
+    }else if(!AC){
+        return "Please Slect AC"
     }else if(!color){
         return "Please Enter a color"
     }else if(!mileage){
         return "Please Select a mileage"
     }else if(!transmission){
         return "Please Select a transmission"
-    }else if(!maxSpeed){
-        return "Please Enter a max speed"
+    }else if(!door){
+        return "Please Enter a door"
     }else if(!feulType){
         return "Please Select a feul type"
     }else if(!price){
@@ -39,8 +39,8 @@ const carAddValidation = ({
         return "Please Select a reverse camera option"
     }else if(!bluetooth){
         return "Please Select a bluetooth option"
-    }else if(!fmRadio){
-        return "Please Select a FM radio option"
+    }else if(!wheel){
+        return "Please Enter a wheel"
     }else if(!climateControl){
         return "Please Select aclimate control option"
     }

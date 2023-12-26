@@ -9,17 +9,19 @@ const CarForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     catagory: "",
-    year: "",
+    AC: "",
     color: "",
     mileage: "",
     transmission: "",
-    maxSpeed: "",
+    // maxSpeed: "",
+    door: "",
     feulType: "",
     price: "",
     seat: "",
     reverseCamera: "",
     bluetooth: "",
-    fmRadio: "",
+    // fmRadio: "",
+    wheel: "",
     climateControl: "",
     image: null, // Initialize image as null
   });
@@ -91,21 +93,24 @@ const CarForm = () => {
             </select>
           </div>
           <div className="mb-4 w-full">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="year"
-            >
-              Year
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="year"
-              id="year"
-              placeholder="Car Year"
-              value={formData.year}
-              onChange={handleChange}
-            />
+          <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="AC"
+              >
+                AC
+              </label>
+              <select
+                id="myDropdown"
+                name="AC"
+                onChange={handleChange}
+                className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="" disabled selected>
+                  Select a option
+                </option>
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </select>
           </div>
         </div>
         <div>
@@ -175,25 +180,21 @@ const CarForm = () => {
           </div>
           <div className="flex justify-between gap-5">
             <div className="mb-4 w-full">
-              <label
+            <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="name"
+                htmlFor="door"
               >
-                Max Speed
+                Door
               </label>
-              <select
-                id="myDropdown"
-                name="maxSpeed"
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                name="door"
+                id="door"
+                placeholder="Door"
+                value={formData.door}
                 onChange={handleChange}
-                className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value="" disabled selected>
-                  Select a Speed
-                </option>
-                <option value="190">190</option>
-                <option value="220">220</option>
-                <option value="240">240</option>
-              </select>
+              />
             </div>
             <div className="mb-4 w-full">
               <label
@@ -208,6 +209,9 @@ const CarForm = () => {
                 onChange={handleChange}
                 className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
+                <option value="" disabled selected>
+                  Select a option
+                </option>
                 <option value="Petrol">Petrol</option>
                 <option value="CNG">CNG</option>
                 <option value="Hybrid">Hybrid</option>
@@ -239,7 +243,7 @@ const CarForm = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="name"
               >
-                Seats
+                Seat
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -287,21 +291,20 @@ const CarForm = () => {
           </div>
           <div className="flex justify-between gap-5">
             <div className="mb-4 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                FM Radio
-              </label>
-              <select
-                id="myDropdown"
-                onChange={handleChange}
-                name="fmRadio"
-                className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="wheel"
               >
-                <option value="" disabled selected>
-                  Select a option
-                </option>
-                <option value={true}>Yes</option>
-                <option value={false}>No</option>
-              </select>
+                Wheel
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="number"
+                name="wheel"
+                placeholder="Enter number of wheel"
+                value={formData.wheel}
+                onChange={handleChange}
+              />
             </div>
             <div className="mb-4 w-full">
               <label className="block text-gray-700 text-sm font-bold mb-2">

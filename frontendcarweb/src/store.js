@@ -11,7 +11,8 @@ const rootReducer = combineReducers({
 })
 
 const initialState = [
-    {name: "hello"}
+    {name: "hello"},
+    
 ]
 const store = createStore(
     rootReducer,
