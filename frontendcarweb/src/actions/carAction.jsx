@@ -1,11 +1,11 @@
-import { CAR_LIST_FAIL, CAR_LIST_REQUEST, CAR_LIST_SUCCESS, CAR_ADD_REQUEST } from "../ActionTypes/carActionTypes";
+import { CAR_LIST_FAIL, CAR_LIST_REQUEST, CAR_LIST_SUCCESS, CAR_ADD_REQUEST, CAR_SEARCH_REQUEST, CAR_SEARCH_SUCCESS, CAR_SEARCH_FAIL } from "../ActionTypes/carActionTypes";
 import axios from "axios"
 // Action creator using Redux Thunk
-export const fetchCar = () => async (dispatch) => {
+export const fetchCar = (params) => async (dispatch) => {
   try {
-    dispatch({ type: CAR_LIST_REQUEST });
-
-    const response = await fetch('http://localhost:7000/api/allCar', {
+    dispatch({ type: CAR_SEARCH_REQUEST });
+    console.log(params);
+    const response = await fetch(`http://localhost:7000/api/search/${params.catagory}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -14,9 +14,10 @@ export const fetchCar = () => async (dispatch) => {
 
     
     const data = await response.json();
-    dispatch({ type: CAR_LIST_SUCCESS, payload: data });
+    console.log(data);
+    dispatch({ type: CAR_SEARCH_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: CAR_LIST_FAIL, payload: "Something went wrong!" });
+    dispatch({ type: CAR_SEARCH_FAIL, payload: "Something went wrong!" });
   }
 };
 

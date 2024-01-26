@@ -3,11 +3,31 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../Header/Header.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { userLogout } from "../../actions/userAction";
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 export const Header = () => {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate()
+  const state = useSelector((state)=> state.userReducer)
   const links = [
+    {
+      to: "/",
+      linkText: "Home",
+    },
+    {
+      to: "/allcar",
+      linkText: "Vehicles",
+    },
+    {
+      to: "/about",
+      linkText: "About",
+    },
+    {
+      to: "/contact",
+      linkText: "Contact",
+    },
+    
+  ];
+  const protectedRoute = [
     {
       to: "/",
       linkText: "Home",
@@ -31,12 +51,8 @@ export const Header = () => {
     {
       to: "/register",
       linkText: "Signup",
-    },
-    // {
-    //   to: "/dashboard",
-    //   linkText: "Dashboard",
-    // },
-  ];
+    }
+  ]
 
   const variants = {
     open: { height: "100%" },
@@ -51,10 +67,8 @@ export const Header = () => {
   const logout = ()=>{
     dispatch(userLogout("Successfully Logout!"))
     localStorage.removeItem('userInfo')
-    // navigate("/")
-  
+    console.log(state.userInfo);
   }
-  
   return (
     <>
       <motion.div
@@ -105,8 +119,8 @@ export const Header = () => {
               animate="open"
               exit="closed"
             >
-              <ul className="h-[90vh]  lg:h-full flex flex-col items-center gap-6 p-4 lg:p-0 flex justify-center   lg:flex-row ">
-                {links.map((element, index) => (
+              <ul className="h-[90vh]  lg:h-full flex flex-col items-center gap-6 lg:gap-2 p-4 lg:p-0 flex justify-center   lg:flex-row ">
+                {(state.userInfo?links:protectedRoute).map((element, index) => (
                   <motion.li
                     initial={{ opacity: 0, x: 100, y: 100 }}
                     whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -125,6 +139,7 @@ export const Header = () => {
                     </NavLink>
                   </motion.li>
                 ))}
+                {state.userInfo &&
                 <li className="">
                 <button
                       onClick={logout}
@@ -132,7 +147,7 @@ export const Header = () => {
                     >
                       Logout
                     </button>
-                </li>
+                </li>}
               </ul>
             </motion.div>
           {/* )} */}

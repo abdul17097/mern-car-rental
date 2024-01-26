@@ -20,7 +20,7 @@ const CarForm = () => {
     seat: "",
     reverseCamera: "",
     bluetooth: "",
-    // fmRadio: "",
+    driver: "",
     wheel: "",
     climateControl: "",
     image: null, // Initialize image as null
@@ -87,8 +87,9 @@ const CarForm = () => {
                 Select a Category
               </option>
               <option value="Luxury">Luxury Car</option>
-              <option value="Sprots">Sprots Car</option>
-              <option value="Business">Business Car</option>
+              <option value="Suv">SUV Car</option>
+              <option value="Standard">Standard Car</option>
+              <option value="Budget">Budget Car</option>
               <option value="Van">Van Car</option>
             </select>
           </div>
@@ -229,7 +230,7 @@ const CarForm = () => {
                 type="number"
                 name="price"
                 id="color"
-                max="12000"
+                max="100000"
                 min="0"
                 placeholder="Enter price"
                 value={formData.price}
@@ -322,6 +323,22 @@ const CarForm = () => {
                 <option value={true}>Yes</option>
                 <option value={false}>No</option>
               </select>
+            </div>
+            <div className="mb-4 w-full">
+            <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="driver"
+              >
+                Driver Price
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="number"
+                name="driver"
+                placeholder="Enter price of Driver"
+                value={formData.driver}
+                onChange={handleChange}
+              />
             </div>
           </div>
           <input

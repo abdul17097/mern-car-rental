@@ -84,6 +84,38 @@ const deleteCars = async (req, res) => {
   }
 }
 
+const carCatagory = async (req,res)=>{
+  try {
+    const cars = await Car.find(req.params);
 
+    if(cars){
+      res.status(200).json({ cars: cars, success: true});
+    }else{
+      res.status(402).json({ success: false});
+    }
+  } catch (error) {
+    
+  }
+}
 
-module.exports = {createCar, allCar, oneCar, deleteCar, deleteCars};
+const updateRecords = async (req, res)=>{
+  try {
+    const updateOperation = {
+      $set: {
+        driver: 1000 // Set the default value for the new field
+      }
+      // Update all records in the Car collection
+    };
+    const result = await Car.updateMany({}, updateOperation);
+    // Check the result and send a response
+    if (result) {
+      res.status(200).json({ message: `${result.nModified} records updated successfully` });
+    } else {
+      res.status(500).json({ message: 'Failed to update records' });
+    }
+  } catch (error) {
+    
+  }
+}
+
+module.exports = {createCar, allCar, oneCar, deleteCar, deleteCars,carCatagory, updateRecords };

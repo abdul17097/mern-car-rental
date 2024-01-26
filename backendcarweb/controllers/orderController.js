@@ -4,24 +4,46 @@ const order = async (req,res)=>{
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
-            line_items: [{
-                price_data: {
-                    currency: "pkr",
-                    product_data: {
-                        name: req.body.name
-                    },
-                    unit_amount: req.body.price * 100
-                },
-                quantity: 1, // You may need to adjust the quantity as needed
-            }],
-        
             mode: "payment",
-            success_url: "http://localhost:5173/allcar", // Added "http://" in URLs
-            cancel_url: "http://localhost:5173/singlecar",
-
+            line_items: req.body.items.map(item => {
+                return{
+                    price_data:{
+                        currency: "inr",
+                        product_data: {
+                            name: item.name
+                        },
+                        unit_amount: (item.price)*100
+                    },
+                    quantity: item.quantity
+                }
+            }),
+            success_url: "http://localhost:5173/success",
+            cancel_url: "http://localhost:5173/cancel"
         })
-        res.json({id: session.id})
-        // const orderList = await Order.find();
+
+        res.json({url: session.url})
+
+
+        //  session = await stripe.checkout.sessions.create({
+        //     payment_method_types: ["card"],
+        //     line_items: [{
+        //         price_data: {
+        //             currency: "pkr",
+        //             product_data: {
+        //                 name: req.body.name
+        //             },
+        //             unit_amount: req.body.price * 100
+        //         },
+        //         quantity: 1, // You may need to adjust the quantity as needed
+        //     }],
+        
+        //     mode: "payment",
+        //     success_url: "http://localhost:5173/allcar", // Added "http://" in URLs
+        //     cancel_url: "http://localhost:5173/singlecar",
+
+        // })
+        // res.json({id: session.id})
+        // const orderList = awaiconstt Order.find();
         // if(orderList){
         //     res.status(200).json({success: true ,orders: orderList});         
         // }
@@ -29,7 +51,7 @@ const order = async (req,res)=>{
         //     res.status(404).json({success: false ,message: "Something went Wrong"})
         // }
     } catch (error) {
-        
+        res.status(500).json({error: error.message})
     }
 }
 const createOrder = async(req,res)=>{

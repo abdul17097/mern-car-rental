@@ -12,6 +12,7 @@ const carAddValidation = ({
   reverseCamera,
   bluetooth,
   wheel,
+  driver,
   climateControl,
   image
 }) => {
@@ -43,6 +44,8 @@ const carAddValidation = ({
         return "Please Enter a wheel"
     }else if(!climateControl){
         return "Please Select aclimate control option"
+    }else if(!driver){
+        return "Please Enter Driver price"
     }
     else if(!image){
         return "Please Choose the image"

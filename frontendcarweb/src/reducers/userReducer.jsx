@@ -10,7 +10,7 @@ import {
 import { USER_LOGOUT } from "../constants/userConstant";
   
   const initialState = {
-    userInfo: [] || localStorage.getItem("userInfo"),
+    userInfo: [] ,
     loading: false,
     success: false,
     message: '',
@@ -46,7 +46,8 @@ import { USER_LOGOUT } from "../constants/userConstant";
       case USER_LOGOUT:
         return {
           ...state,
-          userInfo: [],
+          userInfo: false,
+          success: false
         }
       case USER_LOGIN:
         return{

@@ -38,7 +38,8 @@ const carSchema = new mongoose.Schema({
     'reverseCamera': { type: Boolean, default: false },
     'bluetooth': { type: Boolean, default: false},
     'wheel': { type: Number},
-    'climateControl': { type: Boolean, default: false}
+    'driver': { type: Number},
+    'climateControl': { type: Boolean, default: false},
  
      
 });

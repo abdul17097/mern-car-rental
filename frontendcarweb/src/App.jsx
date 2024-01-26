@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./component/Screen/Home";
 import { Header } from "./component/Header/Header";
 import { Register } from "./component/Screen/Forms/Register";
@@ -31,7 +31,7 @@ function App() {
   }, []);
   
   const { userInfo } = useSelector((state) => state.userReducer);
-
+  const navigate = useNavigate()
   return (
     <>
       <ToastContainer />
@@ -54,12 +54,15 @@ function App() {
       ) : (
         <>
           <Header />
+          {/* <h3 onClick={()=> navigate(-1)} className="border">Back</h3> */}
+
           <WhatsAppButton />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/allCar" element={<AllCar />} />
+            {/* <Route path="/allCar" element={<AllCar />} /> */}
+            <Route path="/search/:catagory" element={<AllCar />} />
             <Route path="/singlecar/:id" element={<SingleCar />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
