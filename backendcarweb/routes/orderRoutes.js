@@ -9,3 +9,16 @@ router.get('/getSingleOrder/:id',verifyToken ,getSingleOrder);
 router.post('/checkout', order);
 
 module.exports = router;
+
+
+
+// id: 1,
+// name: item.name,
+// totalPrice : item.totalPrice,
+// pickUpHour: item.pickUpHour,
+// dropOffHour: item.dropOffHour,
+// pickupDate: item.pickUpDate,
+// dropOffDate: item.dropOffDate,
+// totalDriverDayPrice: item.totalDriverDayPrice,
+// driver: item.driver,
+// totalRentalDay: item.total

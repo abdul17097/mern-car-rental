@@ -3,11 +3,13 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import  {userReducer}  from "./reducers/userReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { carReducer } from './reducers/carReducer';
+import { orderReducer } from './reducers/orderReducer';
 
 
 const rootReducer = combineReducers({
     userReducer: userReducer,
-    carReducer: carReducer
+    carReducer: carReducer,
+    orderReducer: orderReducer
 })
 
 const initialState = [

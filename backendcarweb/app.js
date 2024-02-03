@@ -34,10 +34,24 @@ app.post("/send-email", (req, res) => {
     service: "gmail",
     auth: {
       user: process.env.EMAIL,
-      pass: process.env.PASSWORD
+      pass: process.env.APP_PASSWORD
     },
   };
   const transporter = nodemailer.createTransport(config);
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: req.body.email,
+    subject: req.body.subject,
+    text: req.body.text,
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 });
 
 app.listen(process.env.PORT, () => {

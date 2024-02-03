@@ -133,7 +133,7 @@ export const Header = () => {
                     <NavLink
                       to={element.to}
                       onClick={()=> setToggle(!toggle)}
-                      className="block opacity-100 py-2 focus:border-b-2 focus:border-[#E69A2B]  hover:border-b-2 hover:border-[#E69A2B] font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
+                      className="block opacity-100 py-2  focus:border-b-2 focus:border-[#E69A2B]  hover:border-b-2 hover:border-[#E69A2B] font-thin  text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
                     >
                       {element.linkText}
                     </NavLink>
@@ -143,7 +143,7 @@ export const Header = () => {
                 <li className="">
                 <button
                       onClick={logout}
-                      className="block opacity-100 py-2 focus:border-b-2  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
+                      className="block opacity-100 py-2 focus:border-b-2  hover:border-b-2 hover:border-[#E69A2B]  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
                     >
                       Logout
                     </button>

@@ -12,13 +12,15 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { convertTo24Hour } from "../../../utils/convertHoureTo24";
 import { getDates } from "../../../utils/getDate";
+import { order } from "../../../actions/orderAction";
 
 export const SingleCar = () => {
 const [data, setData] = useState({});
 const { userInfo } = useSelector((state) => state.userReducer);
+const dispatch = useDispatch()
 const [state, setState] = useState([
   {
     startDate: new Date(),
@@ -26,11 +28,7 @@ const [state, setState] = useState([
     key: "selection",
   },
 ]);
-const [driver, setDriver] = useState(false);
 const [totalPrice, setTotalPrice] = useState(0);
-// const [carDetails.pickUpHour, setcarDetails.pickUpHour] = useState(null);
-// const [carDetails.dropOffHour, setcarDetails.dropOffHour] = useState(null);
-// const [totalDriverDayPrice, setTotalDriverDayPrice] = useState();
 
 const [carDetails, setCarDetails] = useState([{
   totalPrice : 0,
@@ -40,7 +38,9 @@ const [carDetails, setCarDetails] = useState([{
   dropOffDate: null,
   totalDriverDayPrice: "",
   driver: false,
-  totalRentalDay: null
+  totalRentalDay: null,
+  price: null,
+  name: null,
 }])
 const params = useParams();
 const navigate = useNavigate();
@@ -73,26 +73,9 @@ useEffect(() => {
 const makePayment = async () => {
   try {
     if (userInfo) {
-      // const res = await fetch("http://localhost:7000/api/checkout", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   mode: "cors",
-      //   body: JSON.stringify({
-      //     items: [
-      //       {
-      //         id: 1,
-      //         quantity: 1,
-      //         price: totalPrice,
-      //         name: "Audi A4",
-      //       },
-      //     ],
-      //   }),
-      // });
-      // const responseData = await res.json();
-      // window.location = responseData.url;
-      console.log(carDetails);
+      console.log(carDetails.totalRentalDay);
+      dispatch(order({carDetails, userInfo, id: params.id}));
+      
     } else {
       navigate("/login");
     }
@@ -126,7 +109,6 @@ useEffect(() => {
     dropOffDate: getDates(state[0].endDate)
   }))
  
-  console.log(state[0].startDate);
   const pickupHour24 = carDetails.pickUpHour? convertTo24Hour(carDetails.pickUpHour):0;
   const dropoffHour24 = carDetails.dropOffHour? convertTo24Hour(carDetails.dropOffHour):0;
   const hoursDifference = Math.abs(dropoffHour24 - pickupHour24);
@@ -140,7 +122,7 @@ useEffect(() => {
     
     const totalPrices = Math.round(originalNumber / 100) * 100;
   setTotalPrice(totalPrices);
-  setCarDetails(previousState => ({...previousState, totalPrice : totalPrices}));
+  setCarDetails(previousState => ({...previousState, totalPrice : totalPrices, price: data.price, name: data.name}));
 }, [carDetails.driver, state, data.price, carDetails.pickUpHour, carDetails.dropOffHour]);
   return (
     <>
@@ -412,7 +394,8 @@ useEffect(() => {
                 </div>
                 <div className="bg-[#E2F8CF] pl-10 py-5 flex justify-between rounded-b-lg items-center">
                   <button
-                    className=" py-3  rounded-lg bg-[#0069D9] hover:bg-[#0069D9] text-white px-6"
+                    disabled={carDetails.totalRentalDay ? false : true}
+                    className={` py-3  rounded-lg bg-[#0069D9] hover:bg-[#0069D9] text-white px-6`}
                     onClick={makePayment}
                   >
                     CHECKOUT
@@ -427,6 +410,7 @@ useEffect(() => {
             <button
               data-modal-target="static-modal"
               data-modal-toggle="static-modal"
+              disabled={carDetails.totalRentalDay ? false : true}
               class="block font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
             >
