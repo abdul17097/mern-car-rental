@@ -20,6 +20,8 @@ import { order } from "../../../actions/orderAction";
 export const SingleCar = () => {
 const [data, setData] = useState({});
 const { userInfo } = useSelector((state) => state.userReducer);
+const { loading } = useSelector((state) => state.orderReducer)
+console.log(loading);
 const dispatch = useDispatch()
 const [state, setState] = useState([
   {
@@ -73,7 +75,6 @@ useEffect(() => {
 const makePayment = async () => {
   try {
     if (userInfo) {
-      console.log(carDetails.totalRentalDay);
       dispatch(order({carDetails, userInfo, id: params.id}));
       
     } else {
@@ -395,10 +396,10 @@ useEffect(() => {
                 <div className="bg-[#E2F8CF] pl-10 py-5 flex justify-between rounded-b-lg items-center">
                   <button
                     disabled={carDetails.totalRentalDay ? false : true}
-                    className={` py-3  rounded-lg bg-[#0069D9] hover:bg-[#0069D9] text-white px-6`}
+                    className={` py-3  rounded-lg bg-[#0069D9] hover:bg-[#0069D9] flex items-center gap-3 text-white px-6`}
                     onClick={makePayment}
                   >
-                    CHECKOUT
+                    CHECKOUT {loading ? <img src="/spinner1.gif" className="w-8 h-8 rounded-full"/> : ""} 
                   </button>
                 </div>
               </div>

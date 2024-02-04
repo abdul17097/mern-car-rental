@@ -2,6 +2,7 @@ import {
   ORDER_FAIL,
   ORDER_REQUEST,
   ORDER_SUCCESS,
+  SET_LOCALSTORAGE_DATA,
 } from "../ActionTypes/orderActionTypes";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
 };
 
 export const orderReducer = (state = initialState, action) => {
+
   switch (action.type) {
     case ORDER_REQUEST:
       return {
@@ -34,6 +36,11 @@ export const orderReducer = (state = initialState, action) => {
         error: action.payload,
         check: false,
       };
+    case SET_LOCALSTORAGE_DATA:
+        return {
+       ...state,
+          order: action.payload
+        }
 
     default:
       return state;

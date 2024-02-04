@@ -23,6 +23,7 @@ import { Dashboard } from "./component/AdminPannel/Dashboard";
 import WhatsAppButton from "./component/WhatsAppButton/WhatsAppButton";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginCheck } from "./actions/userAction";
+import { Success } from "./component/Success";
 function App() {
   const dispatch = useDispatch();
 
@@ -66,6 +67,7 @@ function App() {
             <Route path="/singlecar/:id" element={<SingleCar />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
           <Footer />
         </>

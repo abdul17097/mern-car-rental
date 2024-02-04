@@ -17,18 +17,49 @@ const order = async (req,res)=>{
                     quantity: item.quantity
                 }
             }),
-            success_url: `http://localhost:5173/singlecar/${req.body.id}`,
+            success_url: `http://localhost:5173/success`,
             cancel_url: `http://localhost:5173/singlecar/${req.body.id}`,
         })
 
         
-        res.json({url: session.url})
+        res.json({session: session})
         console.log(session);
 
     } catch (error) {
         res.status(500).json({error: error.message})
     }
 }
+
+
+const getOrderDetails = async (req,res) => {
+    try {
+        // Retrieve payment intent or session details from Stripe
+        const session = await stripe.checkout.sessions.retrieve(req.body.id);
+        res.send(session)
+        // Check if payment was successful
+        // if (session.payment_status === "paid") {
+          // Send email on payment success
+          // sendEmail(session.customer_email, "Payment Successful");
+      
+          // Respond to the client
+          // res.json({ success: true });
+        // } else {
+          // res.status(400).json({ error: "Payment not successful" });
+        // }
+      } catch (error) {
+        console.error("Error handling success:", error);
+        res.status(500).json({ error: "Internal server error", details: error.message });
+      }
+}
+
+
+
+
+
+
+
+
+
 const createOrder = async(req,res)=>{
     try {
         console.log(req.body)
