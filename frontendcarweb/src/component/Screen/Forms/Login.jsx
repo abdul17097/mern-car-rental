@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./form.css";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
@@ -16,6 +16,16 @@ export const Login = () => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+
+  useEffect(() => {
+    // Check for success state changes
+    if (state.success) {
+      toast('Successfully Login');
+      navigate(-1);
+    }
+  }, [state.success]);
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = userData;

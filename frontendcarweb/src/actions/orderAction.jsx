@@ -33,7 +33,7 @@ export const order = (data) => async (dispatch) => {
 const responseData = await res.json();
 dispatch({ type: ORDER_SUCCESS, payload: data });
 // const {id, url} = responseData.session
-localStorage.setItem("reduxState",JSON.stringify({...carDetails, paymentData: responseData.session.id}));
+localStorage.setItem("reduxState",JSON.stringify({...carDetails, paymentID: responseData.session.id}));
 
 window.location = responseData.session.url;
 

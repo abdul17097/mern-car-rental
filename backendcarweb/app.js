@@ -4,13 +4,11 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const carRoutes = require("./routes/carRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-const stripe = require("stripe")("sk_test_51Nw5ZFGtDzrOQD3FjkoGtgSoJ3LHqVJpeOaSzmheaJ1AYjYQpTFlMRLnmaGou70X9pKAmm6uDWHCazqdA1SQxmI3005nIkhCkU");
 
 const {
   notFound,
   errrorHandler,
 } = require("./middleware/errorHandlerMiddleware.js");
-const nodemailer = require("nodemailer");
 const cors = require("cors");
 const app = express();
 dotenv.config();
@@ -31,30 +29,7 @@ app.use("/api", userRoutes);
 app.use("/api", carRoutes);
 app.use("/api", orderRoutes);
 
-app.post("/send-email", (req, res) => {
-  const config = {
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.APP_PASSWORD
-    },
-  };
-  const transporter = nodemailer.createTransport(config);
 
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: req.body.email,
-    subject: req.body.subject,
-    text: req.body.text,
-  };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-});
 
 
 

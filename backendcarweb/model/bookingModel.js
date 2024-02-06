@@ -1,31 +1,33 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
-    orderNumber: {
-        type: String,
-        required: true,
-        unique: true,
-      },
+      name: {type: String},
       dirver: {type: Boolean, default: false},
       car: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'cars'
+          ref: 'Car'
       },
       user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'users'
+          ref: 'User'
       },
+      totalDriverDayPrice: {type: Number},
       bookedTimeSlots :{
         from:{type:String},
         to:{type:String}
       },
+      startTime: {type: String},
+      endTime: {type: String},
       totalHours:{type:Number},
       totalAmount:{type:Number},
-      transactionId:{type:String},
+      transactionId:{type:String, unique: true},
       driverRequired:{type:Boolean},
-      pickupAddress:{type:String},
-      place:{type:String}
-},
+      emailSend: {
+        type: Boolean,
+        default: false,
+      }
+      
+    },
 {timestamps:true}
 );
 

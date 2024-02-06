@@ -26,7 +26,7 @@ const dispatch = useDispatch()
 const [state, setState] = useState([
   {
     startDate: new Date(),
-    endDate: addDays(new Date(), 0),
+    endDate: addDays(new Date(), 1),
     key: "selection",
   },
 ]);
@@ -43,6 +43,9 @@ const [carDetails, setCarDetails] = useState([{
   totalRentalDay: null,
   price: null,
   name: null,
+  day: null,
+  userId: null,
+  emailSend: false,
 }])
 const params = useParams();
 const navigate = useNavigate();
@@ -123,7 +126,7 @@ useEffect(() => {
     
     const totalPrices = Math.round(originalNumber / 100) * 100;
   setTotalPrice(totalPrices);
-  setCarDetails(previousState => ({...previousState, totalPrice : totalPrices, price: data.price, name: data.name}));
+  setCarDetails(previousState => ({...previousState, emailSend: true, userId: userInfo.id, totalPrice : totalPrices, price: data.price, name: data.name, carId : data._id, day: daysDifference }));
 }, [carDetails.driver, state, data.price, carDetails.pickUpHour, carDetails.dropOffHour]);
   return (
     <>
@@ -269,7 +272,7 @@ useEffect(() => {
                     <p className="text-sm text-gray-400">
                       PRICE FOR A{" "}
                       <span className="bg-blue-900 text-white text-sm px-1 rounded">
-                        1 DAY
+                        1day
                       </span>
                     </p>
                     <p className="text-sm text-gray-400">
@@ -288,7 +291,7 @@ useEffect(() => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-2xl">Choose rental dates</span>
-                      <span className="text-2xl">1 day</span>
+                      <span className="text-2xl">{carDetails.day} day</span>
                     </div>
                   </div>
                   <DateRange
@@ -483,7 +486,7 @@ useEffect(() => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-2xl">Choose rental dates</span>
-                        <span className="text-2xl">1 day</span>
+                        <span className="text-2xl">{carDetails.day}</span>
                       </div>
                     </div>
                     <DateRange

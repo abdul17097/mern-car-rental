@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {order, createOrder,getSingleOrder} = require('../controllers/orderController');
+const {order, createOrder,getSingleOrder, sendEmail} = require('../controllers/orderController');
 const {verifyToken} = require('../utils/verifyToken');
 router.get('/order', order);
 router.post('/createOrder', createOrder);
@@ -7,6 +7,7 @@ router.get('/getSingleOrder/:id',verifyToken ,getSingleOrder);
 
 
 router.post('/checkout', order);
+router.post('/send-email', sendEmail)
 
 module.exports = router;
 

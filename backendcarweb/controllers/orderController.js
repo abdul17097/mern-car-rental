@@ -1,5 +1,8 @@
 const Order = require('../model/bookingModel');
 const stripe = require("stripe")("sk_test_51Nw5ZFGtDzrOQD3FjkoGtgSoJ3LHqVJpeOaSzmheaJ1AYjYQpTFlMRLnmaGou70X9pKAmm6uDWHCazqdA1SQxmI3005nIkhCkU");
+
+const nodemailer = require("nodemailer");
+
 const order = async (req,res)=>{
     try {
         const session = await stripe.checkout.sessions.create({
@@ -23,7 +26,6 @@ const order = async (req,res)=>{
 
         
         res.json({session: session})
-        console.log(session);
 
     } catch (error) {
         res.status(500).json({error: error.message})
@@ -31,28 +33,83 @@ const order = async (req,res)=>{
 }
 
 
-const getOrderDetails = async (req,res) => {
-    try {
-        // Retrieve payment intent or session details from Stripe
-        const session = await stripe.checkout.sessions.retrieve(req.body.id);
-        res.send(session)
-        // Check if payment was successful
-        // if (session.payment_status === "paid") {
-          // Send email on payment success
-          // sendEmail(session.customer_email, "Payment Successful");
+
+// const getOrderDetails = async (req,res) => {
+//     try {
+//         // Retrieve payment intent or session details from Stripe
+//         const session = await stripe.checkout.sessions.retrieve(req.body.id);
+//         res.send(session)
+//         // Check if payment was successful
+//         // if (session.payment_status === "paid") {
+//           // Send email on payment success
+//           // sendEmail(session.customer_email, "Payment Successful");
       
-          // Respond to the client
-          // res.json({ success: true });
-        // } else {
-          // res.status(400).json({ error: "Payment not successful" });
-        // }
-      } catch (error) {
-        console.error("Error handling success:", error);
-        res.status(500).json({ error: "Internal server error", details: error.message });
-      }
-}
+//           // Respond to the client
+//           // res.json({ success: true });
+//         // } else {
+//           // res.status(400).json({ error: "Payment not successful" });
+//         // }
+//       } catch (error) {
+//         console.error("Error handling success:", error);
+//         res.status(500).json({ error: "Internal server error", details: error.message });
+//       }
+// }
 
 
+const sendEmail = async (req, res) => {
+    const { name, driver, carId, userId, totalDriverDayPrice, pickupDate, dropOffDate, pickUpHour, dropOffHour, totalPrice, paymentID, emailSend } = req.body;
+    try {
+        console.log(req.body)
+        const checkOrder = await Order.findOne({ paymentID });
+        
+        if (!checkOrder ) {
+            // Create a new booking
+            const newBooking = await Order.create({
+                name,
+                driver,
+                car: carId,
+                user: userId,
+                totalDriverDayPrice,
+                bookedTimeSlots: { from: pickupDate, to: dropOffDate },
+                startTime: pickUpHour,
+                endTime: dropOffHour,
+                totalAmount: totalPrice,
+                transactionId: paymentID,
+                emailSend
+            });
+            
+            res.json({ data: newBooking });
+        } else {
+            res.status(400).json({ error: 'Order with the given transactionId already exists' });
+        }
+    } catch (error) {
+        console.error('Error creating new booking:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+    
+    // const config = {
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.EMAIL,
+    //     pass: process.env.APP_PASSWORD
+    //   },
+    // };
+    // const transporter = nodemailer.createTransport(config);
+  
+    // const mailOptions = {
+    //   from: process.env.EMAIL,
+    //   to: req.body.email,
+    //   subject: req.body.subject,
+    //   text: req.body.text,
+    // };
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log("Email sent: " + info.response);
+    //   }
+    // });
+  };
 
 
 
@@ -92,4 +149,4 @@ const getSingleOrder = async (req, res)=>{
 }
 
 
-module.exports = {order, createOrder, getSingleOrder}
+module.exports = {order, createOrder, getSingleOrder, sendEmail}
