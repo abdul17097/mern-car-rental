@@ -67,6 +67,8 @@ export const Header = () => {
   const logout = ()=>{
     dispatch(userLogout("Successfully Logout!"))
     localStorage.removeItem('userInfo')
+    localStorage.removeItem("reduxState");
+    localStorage.removeItem("emailSentFlag");
     console.log(state.userInfo);
   }
   return (
@@ -75,7 +77,7 @@ export const Header = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className={`dark ${toggle ? "h-[100%]" : "h-[60px]"}  h-[60%] lg:mb-20 flex flex-col  px-5 justify-between lg:flex-row lg:justify-between lg:px-10 lg:h-[80px] lg:items-center w-[100%]`}
+        className={`dark ${toggle ? "h-[100%]" : "h-[60px]"}  h-[60%] lg:mb-20 flex flex-col  px-2 md:px-5 justify-between lg:flex-row lg:justify-between lg:px-10 lg:h-[80px] lg:items-center w-[100%]`}
       >
         <div className="text-xl   lg:text-3xl italic flex h-full pt-3 lg:pt-0  justify-between gap-2  items-center font-mono  text-white ">
           <div className="flex gap-2">
@@ -86,10 +88,11 @@ export const Header = () => {
               Rental
             </div>
           </div>
+          <div className="p-2 cursor-pointer h-10 " onClick={() => setToggle(!toggle)}>
+
           {!toggle ? (
             <div
-              className="flex flex-col gap-2"
-              onClick={() => setToggle(!toggle)}
+              className="flex flex-col gap-2 w-[100%]"
             >
               <div className="h-[3px] w-8 bg-[white] lg:hidden"></div>
               <div className="h-[3px] w-8 bg-[white] lg:hidden"></div>
@@ -97,18 +100,18 @@ export const Header = () => {
             </div>
           ) : (
             <motion.div
-              className="flex w-8 h-full relative top-0 right-0   gap-2"
-              onClick={() => setToggle(!toggle)}
-              variants={toggleVariants}
-              initial="closed"
-              animate={toggle ? "open" : "closed"}
-              transition={{ duration: "0.5" }}
-
+            className="flex w-8 h-full relative top-0 right-3   gap-2"
+            variants={toggleVariants}
+            initial="closed"
+            animate={toggle ? "open" : "closed"}
+            transition={{ duration: "0.5" }}
+            
             >
               <div className="h-[3px] w-8 bg-[white] absolute top-0 lg:hidden rotate-[50deg]"></div>
               <div className="h-[3px] w-8 bg-[white] absolute top-0 lg:hidden rotate-[140deg]"></div>
             </motion.div>
           )}
+              </div>
         </div>
         <AnimatePresence>
           {/* {toggle && ( */}

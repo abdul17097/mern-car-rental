@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./form.css";
-import {useDispatch} from "react-redux"
-import { NavLink } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux"
+import { NavLink, useNavigate } from "react-router-dom";
 import {toast } from 'react-toastify';
 import { motion, AnimatePresence } from "framer-motion"
 import { userSignup } from "../../../actions/userAction";
@@ -14,34 +14,31 @@ export const Register = () => {
         password: "",
         usercnic: ""
     });
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const userData = useSelector(state => state.userReducer)
     const handleEvent = (event) => {
         const {name, value} = event.target;
         setFormData({...formData, [name]:value});
     }
-    const submitForm = (e)=>{
-        e.preventDefault();
-        const {name, email, userphone, password, usercnic} = formData;
-        if(!name || !email || !userphone || !password || !usercnic){
-            toast("Please fill the fields")
-        }else if(!email){
-            toast("enter email")
-        }else if(!userphone){
-            toast("enter userphone")
-        }else if(!name){
-            toast("enter name")   
-        }else if(!password){
-            toast("enter password")
-        }else if(!usercnic){
-            toast("enter confirm password")
-        }else if(!usercnic){
-            toast("please enter cnic");
-        }else{
-            dispatch(userSignup(formData))
-            toast("Successfully Register");
-            console.log(formData);
-        }
-    }
+    const submitForm = async (e) => {
+      e.preventDefault();
+      const { name, email, userphone, password, usercnic } = formData;
+      if (!name || !email || !userphone || !password || !usercnic) {
+          toast("Please fill all the fields");
+      } else {
+        try {
+          await dispatch(userSignup({ name, email, password, userphone, usercnic }));
+          if (userData.success) {
+              toast("Signup successful");
+              navigate("/"); // Redirect to the home page
+          } 
+      } catch (error) {
+          toast("Signup failed");
+      }
+      }
+  }
+
 
   return (
     <div className="flex flex-col w-6/6 mb-10 px-5 md:px-14">

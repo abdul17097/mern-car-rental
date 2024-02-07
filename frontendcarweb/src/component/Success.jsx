@@ -24,7 +24,7 @@ export const Success = () => {
       });
 
       const responseData = await res.json();
-  
+      console.log(responseData);
     } catch (error) {
       console.error('Error sending email:', error);
     }

@@ -126,7 +126,7 @@ useEffect(() => {
     
     const totalPrices = Math.round(originalNumber / 100) * 100;
   setTotalPrice(totalPrices);
-  setCarDetails(previousState => ({...previousState, emailSend: true, userId: userInfo.id, totalPrice : totalPrices, price: data.price, name: data.name, carId : data._id, day: daysDifference }));
+  setCarDetails(previousState => ({...previousState,totalHours: totalHours, emailSend: true, userId: userInfo.id, totalPrice : totalPrices, price: data.price, name: data.name, carId : data._id, day: daysDifference }));
 }, [carDetails.driver, state, data.price, carDetails.pickUpHour, carDetails.dropOffHour]);
   return (
     <>

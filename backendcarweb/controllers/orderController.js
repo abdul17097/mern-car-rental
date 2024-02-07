@@ -2,6 +2,7 @@ const Order = require('../model/bookingModel');
 const stripe = require("stripe")("sk_test_51Nw5ZFGtDzrOQD3FjkoGtgSoJ3LHqVJpeOaSzmheaJ1AYjYQpTFlMRLnmaGou70X9pKAmm6uDWHCazqdA1SQxmI3005nIkhCkU");
 
 const nodemailer = require("nodemailer");
+const User = require('../model/userModel');
 
 const order = async (req,res)=>{
     try {
@@ -57,18 +58,18 @@ const order = async (req,res)=>{
 
 
 const sendEmail = async (req, res) => {
-    const { name, driver, carId, userId, totalDriverDayPrice, pickupDate, dropOffDate, pickUpHour, dropOffHour, totalPrice, paymentID, emailSend } = req.body;
+    const { name, driver, carId, userId, totalDriverDayPrice, totalHours, pickupDate, dropOffDate, pickUpHour, dropOffHour, totalPrice, paymentID, emailSend } = req.body;
     try {
-        console.log(req.body)
-        const checkOrder = await Order.findOne({ paymentID });
-        
-        if (!checkOrder ) {
+        const checkOrder = await Order.findOne({ transactionId: paymentID, });
+        if (!checkOrder) {
+            console.log(name, driver, carId, totalHours, userId, totalDriverDayPrice, pickupDate, dropOffDate, pickUpHour, dropOffHour, totalPrice, paymentID, emailSend)
             // Create a new booking
-            const newBooking = await Order.create({
+            const newBooking = new Order({
                 name,
                 driver,
                 car: carId,
                 user: userId,
+                totalHours: totalHours,
                 totalDriverDayPrice,
                 bookedTimeSlots: { from: pickupDate, to: dropOffDate },
                 startTime: pickUpHour,
@@ -77,45 +78,86 @@ const sendEmail = async (req, res) => {
                 transactionId: paymentID,
                 emailSend
             });
-            
-            res.json({ data: newBooking });
+            await newBooking.save()
+            const user = await User.findOne({_id: userId});
+            if(user && user.email){
+               await sendMail(user.email,{name, driver, totalDriverDayPrice, pickupDate, dropOffDate, pickUpHour, dropOffHour, totalPrice, paymentID } )
+            }
+            console.log(user.email);
+
+            // Send response with the new booking data
+            res.status(200).json({ data: newBooking });
         } else {
-            res.status(400).json({ error: 'Order with the given transactionId already exists' });
+            // If the transaction ID already exists, return an error
+            res.status(409).json({ error: 'Order with the given transactionId already exists' });
         }
     } catch (error) {
-        console.error('Error creating new booking:', error);
+        // console.error('Error creating new booking:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-    
-    // const config = {
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.EMAIL,
-    //     pass: process.env.APP_PASSWORD
-    //   },
-    // };
-    // const transporter = nodemailer.createTransport(config);
+};
+
+
+const sendMail = (email, data) => {
+    const config = {
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD
+      },
+    };
+    const transporter = nodemailer.createTransport(config);
   
-    // const mailOptions = {
-    //   from: process.env.EMAIL,
-    //   to: req.body.email,
-    //   subject: req.body.subject,
-    //   text: req.body.text,
-    // };
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log("Email sent: " + info.response);
-    //   }
-    // });
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "",
+      html: generateHtmlTemplate(data),
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+}
+
+
+const generateHtmlTemplate = (data) => {
+    return `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Booking Confirmation</title>
+        <style>
+          /* Include your inline styles here */
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h2>Booking Confirmation</h2>
+          <p>Dear Customer,</p>
+          <p>Your booking has been confirmed with the following details:</p>
+          <ul>
+            <li><strong>Name:</strong> ${data.name}</li>
+            <li><strong>Driver:</strong> ${data.driver? "Yes": "No"}</li>
+            <li><strong>Total Driver Day Price:</strong> ${data.totalDriverDayPrice}</li>
+            <li><strong>Pickup Date:</strong> ${data.pickupDate}</li>
+            <li><strong>Drop-off Date:</strong> ${data.dropOffDate}</li>
+            <li><strong>Pickup Time:</strong> ${data.pickUpHour}</li>
+            <li><strong>Drop-off Time:</strong> ${data.dropOffHour}</li>
+            <li><strong>Total Price:</strong> ${data.totalPrice}</li>
+            <li><strong>Payment ID:</strong> ${data.paymentID}</li>
+          </ul>
+          <p>Thank you for choosing our service.</p>
+        </div>
+      </body>
+      </html>
+    `;
   };
-
-
-
-
-
-
 
 const createOrder = async(req,res)=>{
     try {

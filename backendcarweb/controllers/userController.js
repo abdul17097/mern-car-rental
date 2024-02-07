@@ -1,17 +1,57 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
-const registerUser = async (req, res) => {
+const errorHandler = require("../utils/error");
+// const registerUser = async (req, res, next) => {
+//   try {
+//     const { name, email, password, isAdmin, usercnic, userphone } = req.body;
+
+//     const user = await User.findOne({ email });
+//     if (user) {
+//       console.log(user);
+//       return next(errorHandler(409, "User already exists"))
+//     }
+//     const saltRounds = 10;
+//     const hashPassword = await bcrypt.hash(password, saltRounds);
+//     console.log("Hashed Password:", hashPassword);
+
+//     const newUser = await User.create({
+//       name,
+//       email,
+//       userphone,
+//       password : hashPassword,
+//       usercnic,
+//     });
+//     await newUser.save();
+//     console.log(newUser);
+//     if (newUser) {
+//       return res.json({
+//         success: true,
+//         message: "Successfully SignUP",
+//         data: {
+//           id: newUser._id,
+//           name: newUser.name,
+//           email: newUser.email,
+//           userphone: newUser.userphone
+//         }
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//     next(errorHandler(500, "Something went wrong"))
+//   }
+// };
+
+const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, isAdmin, usercnic, userphone } = req.body;
-    
-    console.log(req.body);
 
     const user = await User.findOne({ email });
-
     if (user) {
-      return res.json({ message: "User already exists" });
+      console.log(user);
+      return res.status(409).json({success: false ,message: "User already exists" });
     }
+
     const saltRounds = 10;
     const hashPassword = await bcrypt.hash(password, saltRounds);
     console.log("Hashed Password:", hashPassword);
@@ -21,10 +61,10 @@ const registerUser = async (req, res) => {
       email,
       userphone,
       password : hashPassword,
-      isAdmin,
       usercnic,
     });
-
+    await newUser.save();
+    console.log(newUser);
     if (newUser) {
       return res.json({
         success: true,
@@ -39,7 +79,7 @@ const registerUser = async (req, res) => {
     }
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ error: "Something went wrong" });
   }
 };
 

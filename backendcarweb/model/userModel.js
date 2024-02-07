@@ -17,11 +17,9 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
-        required: true
     },
     imageUrl: {
         type: String,
-        required: true,
         default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuL6TBF6f4OmR3C6yj7pffvMkM13n9j6Prpg&usqp=CAU"
     },
     usercnic: {

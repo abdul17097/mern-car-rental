@@ -13,6 +13,8 @@ export const Sidebar = () => {
   const logout = ()=>{
     dispatch(userLogout("Successfully Logout!"))
     localStorage.removeItem("userInfo")
+    localStorage.removeItem("reduxState");
+    localStorage.removeItem("emailSentFlag");
   }
   return (
     <div className="border-r px-5 py-10 w-[16vw] fixed h-screen flex flex-col dark text-white p">

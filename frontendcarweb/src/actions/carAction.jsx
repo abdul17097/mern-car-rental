@@ -4,7 +4,6 @@ import axios from "axios"
 export const fetchCar = (params) => async (dispatch) => {
   try {
     dispatch({ type: CAR_SEARCH_REQUEST });
-    console.log(params);
     const response = await fetch(`http://localhost:7000/api/search/${params.catagory}`, {
       method: "GET",
       headers: {
