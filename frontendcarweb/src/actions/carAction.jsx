@@ -1,17 +1,27 @@
-import { CAR_LIST_FAIL, CAR_LIST_REQUEST, CAR_LIST_SUCCESS, CAR_ADD_REQUEST, CAR_SEARCH_REQUEST, CAR_SEARCH_SUCCESS, CAR_SEARCH_FAIL } from "../ActionTypes/carActionTypes";
-import axios from "axios"
+import {
+  CAR_LIST_FAIL,
+  CAR_LIST_REQUEST,
+  CAR_LIST_SUCCESS,
+  CAR_ADD_REQUEST,
+  CAR_SEARCH_REQUEST,
+  CAR_SEARCH_SUCCESS,
+  CAR_SEARCH_FAIL,
+} from "../ActionTypes/carActionTypes";
+import axios from "axios";
 // Action creator using Redux Thunk
 export const fetchCar = (params) => async (dispatch) => {
   try {
     dispatch({ type: CAR_SEARCH_REQUEST });
-    const response = await fetch(`http://localhost:7000/api/search/${params.catagory}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
+    const response = await fetch(
+      `http://localhost:7000/api/search/${params.catagory}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
-    
     const data = await response.json();
     console.log(data);
     dispatch({ type: CAR_SEARCH_SUCCESS, payload: data });
@@ -58,5 +68,21 @@ export const addCar = (formData) => async (dispatch) => {
   } catch (error) {
     // Handle errors
     console.error("Error in addCar:", error);
+  }
+};
+
+export const getAllCar = () => async (dispatch) => {
+  try {
+    dispatch({ type: CAR_LIST_REQUEST });
+    const res = await fetch("http://localhost:7000/api/allCar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { cars } = await res.json();
+    dispatch({ type: CAR_LIST_SUCCESS, payload: cars });
+  } catch (error) {
+    dispatch({ type: CAR_LIST_ERROR, payload: error.message });
   }
 };

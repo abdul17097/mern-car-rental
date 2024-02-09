@@ -1,17 +1,20 @@
-const router = require('express').Router();
-const {order, createOrder,getSingleOrder, sendEmail} = require('../controllers/orderController');
-const {verifyToken} = require('../utils/verifyToken');
-router.get('/order', order);
-router.post('/createOrder', createOrder);
-router.get('/getSingleOrder/:id',verifyToken ,getSingleOrder);
+const router = require("express").Router();
+const {
+  order,
+  getSingleOrder,
+  sendEmail,
+  allOrder,
+} = require("../controllers/orderController");
+const { verifyToken } = require("../utils/verifyToken");
+router.get("/order", order);
+// router.post('/createOrder', createOrder);
+router.get("/getSingleOrder/:id", verifyToken, getSingleOrder);
 
-
-router.post('/checkout', order);
-router.post('/send-email', sendEmail)
+router.post("/checkout", order);
+router.post("/send-email", sendEmail);
+router.get("/allorder", allOrder);
 
 module.exports = router;
-
-
 
 // id: 1,
 // name: item.name,

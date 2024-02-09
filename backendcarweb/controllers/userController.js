@@ -49,7 +49,9 @@ const registerUser = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (user) {
       console.log(user);
-      return res.status(409).json({success: false ,message: "User already exists" });
+      return res
+        .status(409)
+        .json({ success: false, message: "User already exists" });
     }
 
     const saltRounds = 10;
@@ -60,7 +62,7 @@ const registerUser = async (req, res, next) => {
       name,
       email,
       userphone,
-      password : hashPassword,
+      password: hashPassword,
       usercnic,
     });
     await newUser.save();
@@ -73,8 +75,8 @@ const registerUser = async (req, res, next) => {
           id: newUser._id,
           name: newUser.name,
           email: newUser.email,
-          userphone: newUser.userphone
-        }
+          userphone: newUser.userphone,
+        },
       });
     }
   } catch (error) {
@@ -84,7 +86,6 @@ const registerUser = async (req, res, next) => {
 };
 
 module.exports = { registerUser };
-
 
 const loginUser = async (req, res) => {
   try {
@@ -106,26 +107,45 @@ const loginUser = async (req, res) => {
           token: token,
           name: user.name,
           email: user.email,
-          isAdmin: user.isAdmin
+          isAdmin: user.isAdmin,
         },
       });
-    }else{
+    } else {
       res.status(400).json({ success: false, message: "Invaild Credentials" });
     }
   } catch (error) {}
 };
 
-const allUser = async (req,res)=>{
+const allUser = async (req, res) => {
   try {
     const user = await User.find();
-    if(user){
-      res.status(200).json({users: user});
-    }else{
-      res.status(404).json({message: "Something went wrong"})
+    if (user) {
+      res.status(200).json({ users: user });
+    } else {
+      res.status(404).json({ message: "Something went wrong" });
     }
-    
+  } catch (error) {}
+};
+
+const userDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+    if (user) {
+      return res.json({
+        success: true,
+        message: "Successfully Deleted",
+        data: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        },
+      });
+    }
   } catch (error) {
-    
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Something went wrong" });
   }
-}
-module.exports = { registerUser, loginUser, allUser };
+};
+module.exports = { registerUser, loginUser, allUser, userDelete };

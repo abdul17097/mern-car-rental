@@ -20,11 +20,10 @@ export const Login = () => {
   useEffect(() => {
     // Check for success state changes
     if (state.success) {
-      toast('Successfully Login');
+      toast("Successfully Login");
       navigate(-1);
     }
   }, [state.success]);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,11 +38,10 @@ export const Login = () => {
       if (state.success) {
         toast("Successfully Login");
         navigate("/");
-
       }
     }
   };
-  
+
   return (
     <div className="flex flex-col w-6/6  px-5 md:px-14">
       <div className="w-6/6  flex md:flex-row flex-col">

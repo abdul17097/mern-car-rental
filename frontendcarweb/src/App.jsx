@@ -30,9 +30,9 @@ function App() {
   useEffect(() => {
     dispatch(userLoginCheck(JSON.parse(localStorage.getItem("userInfo"))));
   }, []);
-  
+
   const { userInfo } = useSelector((state) => state.userReducer);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       <ToastContainer />
