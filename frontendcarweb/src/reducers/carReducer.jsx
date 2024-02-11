@@ -8,8 +8,8 @@ import {
 } from "../ActionTypes/carActionTypes";
 
 const initialState = {
+  category: [],
   cars: [],
-  allCars: [],
   loading: false,
   error: null,
   success: false,
@@ -26,7 +26,7 @@ export const carReducer = (state = initialState, action) => {
       console.log(action.payload);
       return {
         ...state,
-        cars: action.payload,
+        category: action.payload,
         loading: false,
       };
     case CAR_SEARCH_FAIL:
@@ -46,7 +46,7 @@ export const carReducer = (state = initialState, action) => {
       console.log(action.payload);
       return {
         ...state,
-        allCars: action.payload,
+        cars: action.payload,
         loading: false,
       };
     case CAR_LIST_FAIL:

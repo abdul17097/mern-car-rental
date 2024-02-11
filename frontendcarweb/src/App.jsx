@@ -16,7 +16,6 @@ import { Contact } from "./component/Screen/Contact/Contact";
 import "./App.css";
 import { Admin } from "./component/AdminPannel/Admin";
 import { Footer } from "./component/Footer/Footer";
-import { Cars } from "./component/AdminPannel/Cars";
 import User from "./component/AdminPannel/User";
 import { Sidebar } from "./component/AdminPannel/Sidebar";
 import { Dashboard } from "./component/AdminPannel/Dashboard";
@@ -24,6 +23,9 @@ import WhatsAppButton from "./component/WhatsAppButton/WhatsAppButton";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginCheck } from "./actions/userAction";
 import { Success } from "./component/Success";
+import { CarList } from "./component/AdminPannel/CarList";
+import NotFound from "./component/NotFound";
+import SearchPage from "./component/Screen/SearchPage";
 function App() {
   const dispatch = useDispatch();
 
@@ -40,13 +42,13 @@ function App() {
         <>
           <div className="flex h-[100vh] w-[100vw] ">
             <Sidebar />
-            <div className="flex flex-col p-5 gap-2 relative left-[16vw]">
+            <div className="flex flex-col p-5 gap-2 relative left-[16vw] overflow-x-hidden">
               <Routes>
                 <Route path="/register" element={<Register />} />
                 {/* <Route path='/login' element={<Login/>}/> */}
                 <Route path="/addCar" element={<CarForm />} />
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/cars" element={<Cars />} />
+                <Route path="/*" element={<Dashboard />} />
+                <Route path="/cars" element={<CarList />} />
                 <Route path="/users" element={<User />} />
               </Routes>
             </div>
@@ -59,7 +61,7 @@ function App() {
 
           <WhatsAppButton />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/*" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             {/* <Route path="/allCar" element={<AllCar />} /> */}
@@ -68,6 +70,7 @@ function App() {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/success" element={<Success />} />
+            <Route path="/search" element={<SearchPage />} />
           </Routes>
           <Footer />
         </>

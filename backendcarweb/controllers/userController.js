@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const errorHandler = require("../utils/error");
+const nodemailer = require("nodemailer");
+
 // const registerUser = async (req, res, next) => {
 //   try {
 //     const { name, email, password, isAdmin, usercnic, userphone } = req.body;
@@ -148,4 +150,72 @@ const userDelete = async (req, res) => {
     return res.status(500).json({ error: "Something went wrong" });
   }
 };
-module.exports = { registerUser, loginUser, allUser, userDelete };
+
+const sendEmail = async (req, res) => {
+  console.log(req.body);
+  try {
+    const { email, subject, message } = req.body;
+    const config = {
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD,
+      },
+    };
+    const transporter = nodemailer.createTransport(config);
+    const mailOptions = {
+      from: email,
+      to: process.env.EMAIL,
+      subject: subject,
+      html: generateHtmlTemplate(message, subject),
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        res.status(500).json({ message: "Failed to send email" });
+      } else {
+        console.log("Email sent: " + info.response);
+        res.status(200).json({ success: true, message: "Email sent" });
+      }
+    });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ message: "Failed to send email" });
+  }
+};
+
+const generateHtmlTemplate = (message, subject) => {
+  return `
+        <html>
+          <head>
+            <style>
+              /* Add your custom CSS styles here */
+              body {
+                font-family: Arial, sans-serif;
+              }
+              .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+              }
+              h1 {
+                color: #333;
+              }
+              p {
+                color: #666;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>${subject}</h1>
+              <p>${message}</p>
+            </div>
+          </body>
+        </html>
+      `;
+};
+
+module.exports = { registerUser, loginUser, allUser, userDelete, sendEmail };
