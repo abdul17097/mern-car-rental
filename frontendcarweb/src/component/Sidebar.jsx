@@ -1,25 +1,39 @@
 import React, { useState } from "react";
-
+import { BsFillFilterSquareFill } from "react-icons/bs";
 export const Sidebar = ({ filteredList }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [priceRange, setPriceRange] = useState(null);
   const [selectedColors, setSelectedColors] = useState([]);
   const handleCheckboxChange = (value) => {
-    setSelectedOption(value);
-    filteredList({ selectedOption: value, priceRange, selectedColors });
+    const updatedOption = selectedOption === value ? null : value;
+    setSelectedOption(updatedOption);
+    filteredList({ selectedOption: updatedOption, priceRange, selectedColors });
   };
 
   const handlePriceRangeChange = (range) => {
-    setPriceRange(range);
-    filteredList({ selectedOption, priceRange: range, selectedColors });
+    const updatedRange = priceRange === range ? null : range;
+    setPriceRange(updatedRange);
+    filteredList({ selectedOption, priceRange: updatedRange, selectedColors });
   };
 
   const handleColorChange = (color) => {
-    selectedColors(color);
-    filteredList({ selectedOption, priceRange, selectedColors: color });
+    const isSelected = selectedColors === color;
+    setSelectedColors(isSelected ? null : color);
+    filteredList({
+      selectedOption,
+      priceRange,
+      selectedColors: isSelected ? null : color,
+    });
   };
+
+  console.log(selectedOption, priceRange, selectedColors);
+
   return (
     <div className="border px-2 flex flex-col">
+      <div className="flex gap-2 items-center text-blue-400 pt-3">
+        <BsFillFilterSquareFill />
+        <h3 className="">Filters</h3>
+      </div>
       <h2 className="text-xl my-4 font-semibold">Category</h2>
       <div className="flex flex-wrap gap-5 md:flex-col md:gap-4 lg:pl-2">
         <div className="">
@@ -118,6 +132,8 @@ export const Sidebar = ({ filteredList }) => {
           </span>
         </div>
       </div>
+      <hr className="text-red-800" />
+
       <h2 className="text-xl font-semibold my-4">Color</h2>
       <div className=" flex flex-wrap gap-5 md:flex-col md:gap-4 lg:pl-2">
         <div className="">
@@ -157,6 +173,8 @@ export const Sidebar = ({ filteredList }) => {
           <span className="ml-2 text-lg text-gray-500 font-thin ">Black</span>
         </div>
       </div>
+      <hr className="text-red-800" />
+
       {/* Add more price range checkboxes as needed */}
     </div>
   );

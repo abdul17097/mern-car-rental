@@ -70,7 +70,8 @@ function App() {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/success" element={<Success />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/find/:query" element={<SearchPage />} />
+            <Route path="/allCar" element={<SearchPage />} />
           </Routes>
           <Footer />
         </>

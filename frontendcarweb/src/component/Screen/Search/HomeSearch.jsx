@@ -4,10 +4,12 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { DateRangePicker, DateRange } from "react-date-range";
 import { addDays } from "date-fns";
+import { NavLink } from "react-router-dom";
 
 export default function HomeSearch() {
   const time = new Date().toLocaleTimeString();
   const [data, setData] = useState({});
+  const [query, setQuery] = useState("");
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -38,6 +40,8 @@ export default function HomeSearch() {
             type="text"
             className=" focus:outline-none "
             placeholder="Search a car..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
         </div>
         <div className="flex items-center  gap-2 ml-10 lg:ml-0  items-center">
@@ -102,35 +106,35 @@ export default function HomeSearch() {
               className="text-sm font-bold  text-gray-600"
               value="Mon 15 Jun"
             /> */}
-                      <div className=" border flex p-1 rounded-md">
-            <label className="text-sm" htmlFor="hour2">
-              Drop off:
-            </label>
-            <select
-              id="hour2"
-              className="focus:outline-none"
-              onChange={handleDropoffHourChange}
-              value={selectedHour2}
-            >
-              {hours.map((hour) => (
-                <React.Fragment key={hour}>
-                  <option
-                    value={`${hour}:00 AM`}
-                    className="text-[#849095]"
-                  >{`${hour}:00 AM`}</option>
-                </React.Fragment>
-              ))}
-              {hours.map((hour) => (
-                <React.Fragment key={hour}>
-                  <option
-                    value={`${hour}:00 PM`}
-                    className="text-[#849095]"
-                  >{`${hour}:00 PM`}</option>
-                </React.Fragment>
-              ))}
-            </select>
-            {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
-          </div>
+            <div className=" border flex p-1 rounded-md">
+              <label className="text-sm" htmlFor="hour2">
+                Drop off:
+              </label>
+              <select
+                id="hour2"
+                className="focus:outline-none"
+                onChange={handleDropoffHourChange}
+                value={selectedHour2}
+              >
+                {hours.map((hour) => (
+                  <React.Fragment key={hour}>
+                    <option
+                      value={`${hour}:00 AM`}
+                      className="text-[#849095]"
+                    >{`${hour}:00 AM`}</option>
+                  </React.Fragment>
+                ))}
+                {hours.map((hour) => (
+                  <React.Fragment key={hour}>
+                    <option
+                      value={`${hour}:00 PM`}
+                      className="text-[#849095]"
+                    >{`${hour}:00 PM`}</option>
+                  </React.Fragment>
+                ))}
+              </select>
+              {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
+            </div>
           </div>
         </div>
         <div className="flex items-center  gap-2 ml-10 lg:ml-0  items-center">
@@ -147,9 +151,12 @@ export default function HomeSearch() {
             />
           </div>
         </div>
-        <button className="flex items-center justify-center py-3 lg:px-6 lg:py-8 bg-[#005085] rounded-b-xl lg:rounded-bl-none lg:rounded-r-xl  text-white">
+        <NavLink
+          to={`/find/${query}`}
+          className="flex items-center justify-center py-3 lg:px-6 lg:py-8 bg-[#005085] rounded-b-xl lg:rounded-bl-none lg:rounded-r-xl  text-white"
+        >
           Search
-        </button>
+        </NavLink>
       </div>
     </div>
   );

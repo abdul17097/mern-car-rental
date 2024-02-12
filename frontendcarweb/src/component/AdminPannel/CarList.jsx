@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCar } from "../../actions/carAction";
 
 export const CarList = () => {
-  const { allCars, loading } = useSelector((state) => state.carReducer);
+  const { cars, loading } = useSelector((state) => state.carReducer);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1); // Current page number
   const itemsPerPage = 7; // Number of items to show per page
@@ -61,8 +61,8 @@ export const CarList = () => {
             </tr>
           </thead>
           <tbody>
-            {allCars &&
-              allCars.slice(startIndex, endIndex).map((car, index) => (
+            {cars &&
+              cars.slice(startIndex, endIndex).map((car, index) => (
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                   key={car._id}
@@ -102,10 +102,10 @@ export const CarList = () => {
         </button>
         <button
           className={`bg-blue-300 p-2 w-20 rounded-lg ${
-            endIndex >= allCars.length ? "opacity-50 cursor-not-allowed" : ""
+            endIndex >= cars.length ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={nextPage}
-          disabled={endIndex >= allCars.length}
+          disabled={endIndex >= cars.length}
         >
           Next
         </button>
