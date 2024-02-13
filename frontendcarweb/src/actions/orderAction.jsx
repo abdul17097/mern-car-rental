@@ -17,24 +17,27 @@ export const order = (data) => async (dispatch) => {
     const { carDetails, userInfo, id } = data;
     if (userInfo) {
       dispatch({ type: ORDER_REQUEST });
-      const res = await fetch("http://localhost:7000/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify({
-          items: [
-            {
-              id: 1,
-              quantity: 1,
-              price: carDetails.totalPrice,
-              name: carDetails.name,
-            },
-          ],
-          id: id,
-        }),
-      });
+      const res = await fetch(
+        "https://mern-car-rental-alpha.vercel.app/api/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+          body: JSON.stringify({
+            items: [
+              {
+                id: 1,
+                quantity: 1,
+                price: carDetails.totalPrice,
+                name: carDetails.name,
+              },
+            ],
+            id: id,
+          }),
+        }
+      );
       const responseData = await res.json();
       dispatch({ type: ORDER_SUCCESS, payload: data });
       // const {id, url} = responseData.session
@@ -64,12 +67,15 @@ export const setLocalStorageData = () => {
 export const getAllOrder = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ORDER_REQUEST });
-    const res = await fetch("http://localhost:7000/api/allorder", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://mern-car-rental-alpha.vercel.app/api/allorder",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { orders } = await res.json();
     console.log(orders);
     dispatch({ type: GET_ORDER_SUCCESS, payload: orders });
@@ -81,12 +87,15 @@ export const getAllOrder = () => async (dispatch) => {
 export const getBookedCar = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_BOOKCAR_REQUEST });
-    const res = await fetch(`http://localhost:7000/api/getOrder/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `https://mern-car-rental-alpha.vercel.app/getOrder/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { bookings } = await res.json();
     dispatch({ type: GET_BOOKCAR_SUCCESS, payload: bookings });
   } catch (error) {

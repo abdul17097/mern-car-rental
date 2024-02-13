@@ -18,7 +18,7 @@ export const fetchCar = (params) => async (dispatch) => {
   try {
     dispatch({ type: CAR_SEARCH_REQUEST });
     const response = await fetch(
-      `http://localhost:7000/api/search/${params.catagory}`,
+      `https://mern-car-rental-alpha.vercel.app/api/search/${params.catagory}`,
       {
         method: "GET",
         headers: {
@@ -56,7 +56,7 @@ export const addCar = (formData) => async (dispatch) => {
 
       // Make the second API call with the formData and imageUrl
       const { data: datas } = await axios.post(
-        "http://localhost:7000/api/addCar",
+        "https://mern-car-rental-alpha.vercel.app/api/addCar",
         {
           ...formData,
           image: imageUrl,
@@ -75,17 +75,20 @@ export const addCar = (formData) => async (dispatch) => {
 export const getAllCar = () => async (dispatch) => {
   try {
     dispatch({ type: CAR_LIST_REQUEST });
-    const res = await fetch("http://localhost:7000/api/allCar", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://mern-car-rental-alpha.vercel.app/api/allCar",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { cars } = await res.json();
     log;
     dispatch({ type: CAR_LIST_SUCCESS, payload: cars });
   } catch (error) {
-    dispatch({ type: CAR_LIST_ERROR, payload: error.message });
+    dispatch({ type: CAR_LIST_FAIL, payload: error.message });
   }
 };
 
@@ -93,12 +96,15 @@ export const deleteCar = (id) => async (dispatch) => {
   console.log(id);
   try {
     dispatch({ type: CAR_DELETE_REQUEST });
-    const res = await fetch(`http://localhost:7000/api/deleteCar/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `https://mern-car-rental-alpha.vercel.app/api/deleteCar/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const responseData = await res.json();
 
     if (responseData.success) {

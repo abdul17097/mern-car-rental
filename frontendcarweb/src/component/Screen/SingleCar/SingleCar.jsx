@@ -56,7 +56,7 @@ export const SingleCar = () => {
     const getCar = async () => {
       try {
         const response = await fetch(
-          `http://localhost:7000/api/oneCar/${params.id}`,
+          `https://mern-car-rental-alpha.vercel.app/api/oneCar/${params.id}`,
           {
             method: "GET",
             headers: {

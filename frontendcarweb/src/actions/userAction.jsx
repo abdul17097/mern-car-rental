@@ -25,7 +25,7 @@ export const userLogin =
       dispatch({ type: USER_LOGIN_REQUEST });
 
       const { data } = await axios.post(
-        "http://localhost:7000/api/login",
+        "https://mern-car-rental-alpha.vercel.app/api/login",
         {
           email,
           password,
@@ -82,13 +82,16 @@ export const userSignup =
     try {
       dispatch({ type: USER_SIGNUP_REQUEST });
 
-      const res = await fetch("http://localhost:7000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password, userphone, usercnic }),
-      });
+      const res = await fetch(
+        "https://mern-car-rental-alpha.vercel.app/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password, userphone, usercnic }),
+        }
+      );
 
       const responseData = await res.json();
       if (responseData.success) {
@@ -122,12 +125,15 @@ export const deleteUser = (userId) => async (dispatch) => {
   try {
     dispatch({ type: USER_DELETE_REQUEST });
     // Perform the delete operation (e.g., send DELETE request to API)
-    const res = await fetch(`http://localhost:7000/api/userDelete/${userId}`, {
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `https://mern-car-rental-alpha.vercel.app/api/userDelete/${userId}`,
+      {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const responseData = await res.json();
     if (responseData.success) {
@@ -145,12 +151,15 @@ export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: USER_GET_REQUEST });
 
-    const res = await fetch("http://localhost:7000/api/allUser", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://mern-car-rental-alpha.vercel.app/api/allUser",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { users } = await res.json();
 
     dispatch({ type: USER_GET_SUCCESS, payload: users });
