@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:7000/api",
+  "proxy": "https://mern-car-rental-alpha.vercel.app/api",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
