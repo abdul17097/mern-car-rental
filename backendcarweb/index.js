@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://mern-car-rental-frontend.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST"],
     credentials: true,
   })
 );
