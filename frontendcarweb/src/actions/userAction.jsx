@@ -35,6 +35,7 @@ export const userLogin =
 
       if (data.success === true) {
         localStorage.setItem("userInfo", JSON.stringify(data.data));
+        toast.success("Login Successfully");
         dispatch({
           type: USER_LOGIN_SUCCESS,
           payload: { data: data.data, message: "Successfully Login" },

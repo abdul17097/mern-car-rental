@@ -6,8 +6,13 @@ import {
   CAR_SEARCH_REQUEST,
   CAR_SEARCH_SUCCESS,
   CAR_SEARCH_FAIL,
+  CAR_DELETE_REQUEST,
+  CAR_DELETE_SUCCESS,
+  CAR_DELETE_FAIL,
 } from "../ActionTypes/carActionTypes";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 // Action creator using Redux Thunk
 export const fetchCar = (params) => async (dispatch) => {
   try {
@@ -77,8 +82,30 @@ export const getAllCar = () => async (dispatch) => {
       },
     });
     const { cars } = await res.json();
+    log;
     dispatch({ type: CAR_LIST_SUCCESS, payload: cars });
   } catch (error) {
     dispatch({ type: CAR_LIST_ERROR, payload: error.message });
+  }
+};
+
+export const deleteCar = (id) => async (dispatch) => {
+  console.log(id);
+  try {
+    dispatch({ type: CAR_DELETE_REQUEST });
+    const res = await fetch(`http://localhost:7000/api/deleteCar/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await res.json();
+
+    if (responseData.success) {
+      dispatch({ type: CAR_DELETE_SUCCESS, payload: id });
+      toast.success("Car Deleted successfully");
+    }
+  } catch (error) {
+    dispatch({ type: CAR_DELETE_FAIL, payload: "Something went wrong" });
   }
 };

@@ -1,4 +1,7 @@
 import {
+  CAR_DELETE_FAIL,
+  CAR_DELETE_REQUEST,
+  CAR_DELETE_SUCCESS,
   CAR_LIST_FAIL,
   CAR_LIST_REQUEST,
   CAR_LIST_SUCCESS,
@@ -53,7 +56,26 @@ export const carReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-
+    case CAR_DELETE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CAR_DELETE_SUCCESS:
+      const filterCarList = state.cars.filter(
+        (car) => car._id !== action.payload
+      );
+      return {
+        ...state,
+        loading: false,
+        cars: filterCarList,
+      };
+    case CAR_DELETE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

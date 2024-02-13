@@ -71,6 +71,7 @@ export const getAllOrder = () => async (dispatch) => {
       },
     });
     const { orders } = await res.json();
+    console.log(orders);
     dispatch({ type: GET_ORDER_SUCCESS, payload: orders });
   } catch (error) {
     dispatch({ type: GET_ORDER_FAIL, payload: error.message });

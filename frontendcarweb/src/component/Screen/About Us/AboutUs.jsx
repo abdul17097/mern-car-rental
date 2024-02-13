@@ -11,18 +11,18 @@ const AboutUs = () => {
   }, []);
   return (
     <div>
-      <div className="md:block hidden">
+      <div className="md:block hidden ">
         <img
           src="/aboutus.jpg"
           alt=""
-          className="relative object-cover bottom-20 z-[-1]  h-[400px] w-[100%]"
+          className="relative object-cover  bottom-20 z-[-1]  h-[400px] w-[100%]"
         />
       </div>
-      <div className="md:hidden">
+      <div className="md:hidden ">
         <img
           src="/about-mobile.jpg"
           alt=""
-          className="relative  h-[250px] object-cover w-[100%]"
+          className="relative   h-[250px] object-cover w-[100%]"
         />
       </div>
       <motion.div

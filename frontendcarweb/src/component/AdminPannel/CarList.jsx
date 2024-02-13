@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCar } from "../../actions/carAction";
-
+import { deleteCar, getAllCar } from "../../actions/carAction";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 export const CarList = () => {
   const { cars, loading } = useSelector((state) => state.carReducer);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1); // Current page number
   const itemsPerPage = 7; // Number of items to show per page
-
+  console.log(loading);
   useEffect(() => {
     dispatch(getAllCar());
   }, [dispatch]);
@@ -20,6 +21,9 @@ export const CarList = () => {
     setPage((prevPage) => prevPage - 1); // Move to the previous page
   };
 
+  const handleDelete = (id) => {
+    dispatch(deleteCar(id));
+  };
   // Calculate the start and end index of the current page
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -56,7 +60,7 @@ export const CarList = () => {
                 Fuel Type
               </th>
               <th scope="col" className="px-6 py-3">
-                Color
+                Action
               </th>
             </tr>
           </thead>
@@ -84,7 +88,14 @@ export const CarList = () => {
                   <td className="px-6 py-2">{car.catagory}</td>
                   <td className="px-6 py-2">{car.price}</td>
                   <td className="px-6 py-2">{car.feulType}</td>
-                  <td className="px-6 py-2">{car.color}</td>
+                  <td className="px-6 py-2 flex  gap-5 text-2xl text-blue-400 mt-4">
+                    <span className="">
+                      <FaEdit />
+                    </span>
+                    <button onClick={() => handleDelete(car._id)} className="">
+                      <MdDelete />
+                    </button>
+                  </td>
                 </tr>
               ))}
           </tbody>

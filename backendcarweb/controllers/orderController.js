@@ -1,8 +1,5 @@
 const Order = require("../model/bookingModel");
-const stripe = require("stripe")(
-  "sk_test_51Nw5ZFGtDzrOQD3FjkoGtgSoJ3LHqVJpeOaSzmheaJ1AYjYQpTFlMRLnmaGou70X9pKAmm6uDWHCazqdA1SQxmI3005nIkhCkU"
-);
-
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const nodemailer = require("nodemailer");
 const User = require("../model/userModel");
 
@@ -224,14 +221,13 @@ const allOrder = async (req, res) => {
         path: "car",
         select: "bookedTimeSlots catagory image name",
       });
+    console.log(orders);
     res.status(200).json({ orders, orders });
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-module.exports = allOrder;
 
 const allBookingsByUser = async (req, res) => {
   try {

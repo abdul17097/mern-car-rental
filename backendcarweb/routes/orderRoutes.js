@@ -13,7 +13,7 @@ router.get("/getSingleOrder/:id", verifyToken, getSingleOrder);
 router.get("/getOrder/:id", allBookingsByUser);
 router.post("/checkout", order);
 router.post("/send-email", sendEmail);
-router.get("/allorder", verifyToken, allOrder);
+router.get("/allorder", allOrder);
 
 module.exports = router;
 

@@ -19,7 +19,6 @@ export const Login = () => {
 
   useEffect(() => {
     // Check for success state changes
-    console.log(state.success);
     if (state.success) {
       toast("Successfully Login");
       navigate(-1);
@@ -35,11 +34,10 @@ export const Login = () => {
       toast("please enter password");
     } else {
       dispatch(userLogin(userData));
-      if (state.success) {
+      console.log(state);
+      if (state.userInfo) {
         toast("Successfully Login");
         navigate("/");
-      } else {
-        toast("Invalid credentials");
       }
     }
   };
