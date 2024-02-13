@@ -4,6 +4,7 @@ import "../Header/Header.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { userLogout } from "../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { PiCarThin } from "react-icons/pi";
 export const Header = () => {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
@@ -151,6 +152,17 @@ export const Header = () => {
                   >
                     Logout
                   </button>
+                </li>
+              )}
+              {state.userInfo && (
+                <li className="">
+                  <NavLink
+                    to={`/cart/${state.userInfo.id}`}
+                    className="block  opacity-100 py-2 focus:border-b-2  hover:border-b-2 hover:border-[#E69A2B]  font-thin text-lg lg:text-xl flex justify-center text-white  hover:text-white  lg:flex lg:p-1 lg:w-[100px] lg:justify-center "
+                  >
+                    {/* <PiCarThin className="text-3xl" /> */}
+                    Orders
+                  </NavLink>
                 </li>
               )}
             </ul>

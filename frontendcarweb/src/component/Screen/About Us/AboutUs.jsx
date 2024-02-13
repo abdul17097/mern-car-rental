@@ -1,14 +1,21 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getAllCar } from "../../../actions/carAction";
 
 const AboutUs = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCar());
+  }, []);
   return (
     <div>
       <div className="md:block hidden">
         <img
           src="/aboutus.jpg"
           alt=""
-          className="relative object-cover bottom-20  h-[400px] w-[100%]"
+          className="relative object-cover bottom-20 z-[-1]  h-[400px] w-[100%]"
         />
       </div>
       <div className="md:hidden">
@@ -19,10 +26,11 @@ const AboutUs = () => {
         />
       </div>
       <motion.div
-        initial={{opacity: 0, y: 100}}
-        whileInView= {{opacity: 1, y:0}}
-        transition= {{duration: '1'}}
-        className="px-5 py-5  flex flex-col gap-5 md:px-32">
+        initial={{ opacity: 0, x: -200 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: "0.9" }}
+        className="px-5 py-5  flex flex-col gap-5 md:px-32"
+      >
         <h2 className="text-2xl font-bold  first-letter:text:3xl md:first-letter:text-4xl">
           ABOUT US
         </h2>
@@ -40,11 +48,12 @@ const AboutUs = () => {
           about making every journey memorable. Your adventure starts with us.
         </p>
       </motion.div>
-      <motion.div 
-      initial={{opacity: 0, y: 100}}
-      whileInView= {{opacity: 1, y:0}}
-      transition= {{duration: '1'}}
-      className="px-5 py-5 flex flex-col gap-5 md:px-32">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: "1" }}
+        className="px-5 py-5 flex flex-col gap-5 md:px-32"
+      >
         <h2 className="text-2xl font-semibold  first-letter:text-2xl md:first-letter:text-4xl">
           What we do
         </h2>

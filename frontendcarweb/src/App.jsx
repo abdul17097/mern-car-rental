@@ -7,7 +7,6 @@ import { Login } from "./component/Screen/Forms/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CarForm from "./component/Screen/CarForm/CarForm";
-import LandingPage from "./component/Screen/LandingPage/LandingPage";
 import { SingleCar } from "./component/Screen/SingleCar/SingleCar";
 import { AllCar } from "./component/Screen/AllCar/AllCar";
 import AboutUs from "./component/Screen/About Us/AboutUs";
@@ -26,6 +25,7 @@ import { Success } from "./component/Success";
 import { CarList } from "./component/AdminPannel/CarList";
 import NotFound from "./component/NotFound";
 import SearchPage from "./component/Screen/SearchPage";
+import Cart from "./component/Cart";
 function App() {
   const dispatch = useDispatch();
 
@@ -72,6 +72,7 @@ function App() {
             <Route path="/success" element={<Success />} />
             <Route path="/find/:query" element={<SearchPage />} />
             <Route path="/allCar" element={<SearchPage />} />
+            <Route path="/cart/:id" element={<Cart />} />
           </Routes>
           <Footer />
         </>

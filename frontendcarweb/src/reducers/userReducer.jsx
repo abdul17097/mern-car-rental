@@ -37,7 +37,6 @@ export const userReducer = (state = initialState, action) => {
       };
 
     case USER_LOGIN_SUCCESS:
-      console.log(action.payload.data);
       return {
         ...state,
         userInfo: action.payload.data,
@@ -82,7 +81,6 @@ export const userReducer = (state = initialState, action) => {
       const filterUser = state.users.filter(
         (user) => user._id !== action.payload
       );
-      console.log(filterUser);
       return {
         ...state,
         loading: false,

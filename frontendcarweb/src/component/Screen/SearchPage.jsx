@@ -3,7 +3,6 @@ import { Search } from "../Search";
 import { Sidebar } from "../Sidebar";
 import { CarCard } from "./AllCar/CarCard";
 import { useDispatch, useSelector } from "react-redux";
-import { Card } from "./LandingPage/Card";
 import { getAllCar } from "../../actions/carAction";
 import { useParams } from "react-router-dom";
 const SearchPage = () => {
@@ -103,7 +102,7 @@ const SearchPage = () => {
   //   };
 
   return (
-    <div className="flex flex-col mb-5 gap-5 md:px-6 lg:px-20">
+    <div className="flex  flex-col mb-5 gap-5 md:px-6 lg:px-20">
       <Search filteredList={filteredList} />
       <div className="max-w-full grid md:grid-cols-4 grid-cols-1">
         <Sidebar filteredList={filteredList} />

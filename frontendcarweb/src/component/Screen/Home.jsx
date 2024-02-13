@@ -1,50 +1,38 @@
 import React, { useEffect } from "react";
-import { CategoryBanner } from "./CategorySection/CategoryBanner";
 import "./Home.css";
-import LandingPage from "./LandingPage/LandingPage";
 import { HeroSection } from "./HeroSection/HeroSection";
-import { fetchCar } from "../../actions/carAction";
+import { fetchCar, getAllCar } from "../../actions/carAction";
 import { useDispatch } from "react-redux";
 import HomeSearch from "./Search/HomeSearch";
 import { OfferExperiance } from "./Search/OfferExperiance";
 import { Catagoryies } from "./Search/Catagoryies";
-
+import { motion } from "framer-motion";
+import LatestCar from "../LatestCar";
 export const Home = () => {
-  const businessBanner = {
-    bgImage: "/audi a1.png",
-    p1: "BUSINESS CARS",
-    p2: "Best choice for your business needs",
-    p3: "If you are here on business, you should consider renting one of these cars",
-    btn: "CHOOSE A BUISSNESS CAR",
-  };
-  const sportBanner = {
-    bgImage: "/sportcar.avif",
-    p1: "SPORTS CARS",
-    p2: "Enjoy the speed of a sports car",
-    p3: "Give yourself the opportunity to become a racer for the day",
-    btn: "CHOOSE A SPORTS CAR",
-  };
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCar());
+    dispatch(getAllCar());
   }, []);
   return (
     <>
       <HeroSection />
-      <HomeSearch/>
-      <Catagoryies/>
+      <HomeSearch />
+      <Catagoryies />
 
-      <div className="w-5/5 py-10 mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 200 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="w-5/5 py-10 mb-12"
+      >
         <div className="bgLine   w-full">
           <div className=" mx-3 md:mx-20  bg-[#FEFEFE] shadow-lg flex  md:gap-20 flex-col  md:justify-between p-4 md:p-10 bgCarImage   rounded-lg">
             <div className="w-5/5 flex flex-col  ">
               <h6 className="text-xl text-[#1AA9E5] pb-5">OUR BENIFITS</h6>
-              <snap className="md:text-[50px] font-bold ">
-                Why you should{" "}
-              </snap>
+              <snap className="md:text-[50px] font-bold ">Why you should </snap>
               <p className="md:text-[50px] font-bold ">
-                <span className="text-[#E56232]">rent a car </span>  
+                <span className="text-[#E56232]">rent a car </span>
                 with us?
               </p>
             </div>
@@ -88,14 +76,9 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <OfferExperiance/>
-        {/* Showing landing page cars */}
-        {/* <LandingPage /> */}
-        {/* <CategoryBanner data={sportBanner} /> */}
-        {/* <LandingPage/> */}
-        {/* Buisness banner */}
-        {/* <CategoryBanner data={businessBanner}/> */}
-      </div>
+        <OfferExperiance />
+        <LatestCar />
+      </motion.div>
     </>
   );
 };

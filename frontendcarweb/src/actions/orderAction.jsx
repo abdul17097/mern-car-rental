@@ -1,4 +1,7 @@
 import {
+  GET_BOOKCAR_FAIL,
+  GET_BOOKCAR_REQUEST,
+  GET_BOOKCAR_SUCCESS,
   GET_ORDER_FAIL,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
@@ -68,9 +71,24 @@ export const getAllOrder = () => async (dispatch) => {
       },
     });
     const { orders } = await res.json();
-    console.log("orders", orders);
     dispatch({ type: GET_ORDER_SUCCESS, payload: orders });
   } catch (error) {
     dispatch({ type: GET_ORDER_FAIL, payload: error.message });
+  }
+};
+
+export const getBookedCar = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_BOOKCAR_REQUEST });
+    const res = await fetch(`http://localhost:7000/api/getOrder/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { bookings } = await res.json();
+    dispatch({ type: GET_BOOKCAR_SUCCESS, payload: bookings });
+  } catch (error) {
+    dispatch({ type: GET_BOOKCAR_FAIL, payload: error.message });
   }
 };

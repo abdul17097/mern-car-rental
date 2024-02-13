@@ -1,4 +1,7 @@
 import {
+  GET_BOOKCAR_FAIL,
+  GET_BOOKCAR_REQUEST,
+  GET_BOOKCAR_SUCCESS,
   GET_ORDER_FAIL,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
@@ -11,6 +14,7 @@ import {
 const initialState = {
   order: {},
   orders: [],
+  bookedCar: [],
   loading: false,
   error: null,
   success: false,
@@ -25,7 +29,6 @@ export const orderReducer = (state = initialState, action) => {
         loading: true,
       };
     case ORDER_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         order: action.payload,
@@ -52,7 +55,6 @@ export const orderReducer = (state = initialState, action) => {
         loading: true,
       };
     case GET_ORDER_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         orders: action.payload,
@@ -64,7 +66,23 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         loading: false,
       };
-
+    case GET_BOOKCAR_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_BOOKCAR_SUCCESS:
+      return {
+        ...state,
+        bookedCar: action.payload,
+        loading: false,
+        check: true,
+      };
+    case GET_BOOKCAR_FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

@@ -4,15 +4,16 @@ const {
   getSingleOrder,
   sendEmail,
   allOrder,
+  allBookingsByUser,
 } = require("../controllers/orderController");
 const { verifyToken } = require("../utils/verifyToken");
 router.get("/order", order);
 // router.post('/createOrder', createOrder);
 router.get("/getSingleOrder/:id", verifyToken, getSingleOrder);
-
+router.get("/getOrder/:id", allBookingsByUser);
 router.post("/checkout", order);
 router.post("/send-email", sendEmail);
-router.get("/allorder", allOrder);
+router.get("/allorder", verifyToken, allOrder);
 
 module.exports = router;
 

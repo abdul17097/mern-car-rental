@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { getAllCar } from "../../../actions/carAction";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +13,11 @@ export const Contact = () => {
     email: "",
     message: "",
   });
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getAllCar());
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -50,7 +56,7 @@ export const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between md:px-40 w-[100%]  ">
+    <div className="flex flex-col md:flex-row md:justify-between md:px-5 md:py-5  lg:px-40 w-[100%]  ">
       <ToastContainer />
       <motion.div
         initial={{ opacity: 0, x: -100 }}

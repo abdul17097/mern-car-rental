@@ -5,7 +5,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { DateRangePicker, DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import { NavLink } from "react-router-dom";
-
+import { motion } from "framer-motion";
 export default function HomeSearch() {
   const time = new Date().toLocaleTimeString();
   const [data, setData] = useState({});
@@ -32,7 +32,13 @@ export default function HomeSearch() {
     setSelectedHour2(selectedValue);
   };
   return (
-    <div className=" flex  justify-center  ">
+    <motion.div
+      initial={{ opacity: 0, y: -200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      viewport={{ once: true }}
+      className=" flex  justify-center  "
+    >
       <div className=" flex w-full md:w-auto  lg:items-center lg:w-auto shadow-xl   md:justify-center lg:justify-center   mx-5 gap-8 my-5 pt-5 lg:pt-0 flex-col lg:flex-row shadow lg:pl-5 lg:absolute bottom-8 border  rounded-xl bg-white">
         <div className="flex items-center  gap-2 ml-10 lg:ml-0">
           <CiSearch className="text-xl font-bold text-gray-500" />
@@ -158,6 +164,6 @@ export default function HomeSearch() {
           Search
         </NavLink>
       </div>
-    </div>
+    </motion.div>
   );
 }

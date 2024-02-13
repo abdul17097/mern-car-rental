@@ -23,7 +23,6 @@ export const carReducer = (state = initialState, action) => {
         loading: true,
       };
     case CAR_SEARCH_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         category: action.payload,
@@ -43,7 +42,6 @@ export const carReducer = (state = initialState, action) => {
         loading: true,
       };
     case CAR_LIST_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         cars: action.payload,

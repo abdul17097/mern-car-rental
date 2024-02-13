@@ -22,8 +22,6 @@ export const userLogin =
   ({ email, password }) =>
   async (dispatch) => {
     try {
-      console.log(email, password);
-
       dispatch({ type: USER_LOGIN_REQUEST });
 
       const { data } = await axios.post(
@@ -34,8 +32,7 @@ export const userLogin =
         },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log("data");
-      console.log(data);
+
       if (data.success === true) {
         localStorage.setItem("userInfo", JSON.stringify(data.data));
         dispatch({
@@ -93,7 +90,6 @@ export const userSignup =
       });
 
       const responseData = await res.json();
-      console.log(responseData);
       if (responseData.success) {
         localStorage.setItem("userInfo", JSON.stringify(responseData.data));
         dispatch({ type: USER_SIGNUP_SUCCESS, payload: responseData.data });
@@ -106,7 +102,6 @@ export const userSignup =
         toast(responseData.message);
       }
     } catch (error) {
-      console.error("Error:", error);
       dispatch({ type: USER_SIGNUP_FAIL, payload: "Signup failed" });
       toast("Signup failed");
     }
@@ -125,7 +120,6 @@ export const userLoginCheck = (payload) => ({
 export const deleteUser = (userId) => async (dispatch) => {
   try {
     dispatch({ type: USER_DELETE_REQUEST });
-    console.log(userId);
     // Perform the delete operation (e.g., send DELETE request to API)
     const res = await fetch(`http://localhost:7000/api/userDelete/${userId}`, {
       method: "delete",
@@ -148,7 +142,6 @@ export const deleteUser = (userId) => async (dispatch) => {
 
 export const getAllUsers = () => async (dispatch) => {
   try {
-    console.log("getAllUsers");
     dispatch({ type: USER_GET_REQUEST });
 
     const res = await fetch("http://localhost:7000/api/allUser", {

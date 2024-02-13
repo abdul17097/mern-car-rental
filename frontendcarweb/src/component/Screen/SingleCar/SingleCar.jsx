@@ -12,122 +12,152 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { convertTo24Hour } from "../../../utils/convertHoureTo24";
 import { getDates } from "../../../utils/getDate";
 import { order } from "../../../actions/orderAction";
 
 export const SingleCar = () => {
-const [data, setData] = useState({});
-const { userInfo } = useSelector((state) => state.userReducer);
-const { loading } = useSelector((state) => state.orderReducer)
-console.log(loading);
-const dispatch = useDispatch()
-const [state, setState] = useState([
-  {
-    startDate: new Date(),
-    endDate: addDays(new Date(), 1),
-    key: "selection",
-  },
-]);
-const [totalPrice, setTotalPrice] = useState(0);
-
-const [carDetails, setCarDetails] = useState([{
-  totalPrice : 0,
-  pickUpHour: null,
-  dropOffHour: null,
-  pickupDate: null,
-  dropOffDate: null,
-  totalDriverDayPrice: "",
-  driver: false,
-  totalRentalDay: null,
-  price: null,
-  name: null,
-  day: null,
-  userId: null,
-  emailSend: false,
-}])
-const params = useParams();
-const navigate = useNavigate();
-
-
-
-useEffect(() => {
-  const getCar = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:7000/api/oneCar/${params.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const datas = await response.json();
-      setData(datas.car);
-      setTotalPrice(datas.car.price); // Initialize totalPrice with the base price
-      setCarDetails(prevState => ({...prevState, totalPrice: datas.car.price}))
-    } catch (error) {
-      console.error("Error fetching car data:", error);
-    }
-  };
-  getCar();
-}, [params.id]);
-
-const makePayment = async () => {
-  try {
-    if (userInfo) {
-      dispatch(order({carDetails, userInfo, id: params.id}));
-      
-    } else {
-      navigate("/login");
-    }
-  } catch (error) {
-    toast.error("Something Went Wrong!");
-  }
-};
-const handleDateChange = (item) => {
-  // Set the end date to the selected date
-  const selectedStartDate = item.selection.startDate;
-  const selectedEndDate = item.selection.endDate;
-  const updatedEndDate = addDays(selectedEndDate, 1); // Increment by 1 day
-
-  setState([
+  const [data, setData] = useState({});
+  const { userInfo } = useSelector((state) => state.userReducer);
+  const { loading } = useSelector((state) => state.orderReducer);
+  console.log(loading);
+  const dispatch = useDispatch();
+  const [state, setState] = useState([
     {
-      startDate: selectedStartDate,
-      endDate: updatedEndDate,
-      key: 'selection',
+      startDate: new Date(),
+      endDate: addDays(new Date(), 1),
+      key: "selection",
     },
   ]);
-};
-const hours = Array.from({ length: 12 }, (_, index) => index + 1);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-useEffect(() => {
-  const daysDifference = differenceInDays(state[0].endDate, state[0].startDate);
-  
-  setCarDetails(prevState => ({...prevState, 
-    totalRentalDay: daysDifference, 
-    totalDriverDayPrice: daysDifference*data.driver,
-    pickupDate: getDates(state[0].startDate),
-    dropOffDate: getDates(state[0].endDate)
-  }))
- 
-  const pickupHour24 = carDetails.pickUpHour? convertTo24Hour(carDetails.pickUpHour):0;
-  const dropoffHour24 = carDetails.dropOffHour? convertTo24Hour(carDetails.dropOffHour):0;
-  const hoursDifference = Math.abs(dropoffHour24 - pickupHour24);
+  const [carDetails, setCarDetails] = useState([
+    {
+      totalPrice: 0,
+      pickUpHour: null,
+      dropOffHour: null,
+      pickupDate: null,
+      dropOffDate: null,
+      totalDriverDayPrice: "",
+      driver: false,
+      totalRentalDay: null,
+      price: null,
+      name: null,
+      day: null,
+      userId: null,
+      emailSend: false,
+    },
+  ]);
+  const params = useParams();
+  const navigate = useNavigate();
 
-  const totalHours = daysDifference * 24 + hoursDifference;
-  const hourlyRate = data.price / 24;
-  const totalPrice = totalHours * hourlyRate;
-  const originalNumber = carDetails.driver
-    ? totalPrice + data.driver * daysDifference
-    : totalPrice;
-    
+  useEffect(() => {
+    const getCar = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:7000/api/oneCar/${params.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const datas = await response.json();
+        setData(datas.car);
+        setTotalPrice(datas.car.price); // Initialize totalPrice with the base price
+        setCarDetails((prevState) => ({
+          ...prevState,
+          totalPrice: datas.car.price,
+        }));
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+      }
+    };
+    getCar();
+  }, [params.id]);
+
+  const makePayment = async () => {
+    try {
+      if (!carDetails.pickUpHour || !carDetails.dropOffHour) {
+        toast.error("Please select both pickup and drop-off times.");
+        return;
+      } else if (userInfo) {
+        dispatch(order({ carDetails, userInfo, id: params.id }));
+      } else {
+        navigate("/login");
+        return;
+      }
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+    }
+  };
+  const handleDateChange = (item) => {
+    // Set the end date to the selected date
+    const selectedStartDate = item.selection.startDate;
+    const selectedEndDate = item.selection.endDate;
+    const updatedEndDate = addDays(selectedEndDate, 1); // Increment by 1 day
+
+    setState([
+      {
+        startDate: selectedStartDate,
+        endDate: updatedEndDate,
+        key: "selection",
+      },
+    ]);
+  };
+  const hours = Array.from({ length: 12 }, (_, index) => index + 1);
+
+  useEffect(() => {
+    const daysDifference = differenceInDays(
+      state[0].endDate,
+      state[0].startDate
+    );
+
+    setCarDetails((prevState) => ({
+      ...prevState,
+      totalRentalDay: daysDifference,
+      totalDriverDayPrice: daysDifference * data.driver,
+      pickupDate: getDates(state[0].startDate),
+      dropOffDate: getDates(state[0].endDate),
+    }));
+
+    const pickupHour24 = carDetails.pickUpHour
+      ? convertTo24Hour(carDetails.pickUpHour)
+      : 0;
+    const dropoffHour24 = carDetails.dropOffHour
+      ? convertTo24Hour(carDetails.dropOffHour)
+      : 0;
+    const hoursDifference = Math.abs(dropoffHour24 - pickupHour24);
+
+    const totalHours = daysDifference * 24 + hoursDifference;
+    const hourlyRate = data.price / 24;
+    const totalPrice = totalHours * hourlyRate;
+    const originalNumber = carDetails.driver
+      ? totalPrice + data.driver * daysDifference
+      : totalPrice;
+
     const totalPrices = Math.round(originalNumber / 100) * 100;
-  setTotalPrice(totalPrices);
-  setCarDetails(previousState => ({...previousState,totalHours: totalHours, emailSend: true, userId: userInfo.id, totalPrice : totalPrices, price: data.price, name: data.name, carId : data._id, day: daysDifference }));
-}, [carDetails.driver, state, data.price, carDetails.pickUpHour, carDetails.dropOffHour]);
+    setTotalPrice(totalPrices);
+    setCarDetails((previousState) => ({
+      ...previousState,
+      totalHours: totalHours,
+      emailSend: true,
+      userId: userInfo && userInfo.id,
+      totalPrice: totalPrices,
+      price: data.price,
+      name: data.name,
+      carId: data._id,
+      day: daysDifference,
+    }));
+  }, [
+    carDetails.driver,
+    state,
+    data.price,
+    carDetails.pickUpHour,
+    carDetails.dropOffHour,
+  ]);
   return (
     <>
       {data && (
@@ -136,12 +166,12 @@ useEffect(() => {
           <div className="flex">
             <div className="md:w-3/6 w-6/6  px-5 md:px-12">
               <motion.img
-                initial={{ opacity: 0, x: -200 }}
+                initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 1, type: "spring", stiffness: 100 }}
                 viewport={{ once: true }}
                 src={data.image}
-                className="rounded w-full  border border-black md:w-full"
+                className="rounded-lg w-full  border-8 shadow-lg  md:w-full"
               />
               <p className=" my-5 w-full md:w-6/6 md:h-48   md:py-3 font-sans rounded-lg bg-[#F7F8FA]">
                 The car is available for daily, weekly and monthly rental. You
@@ -279,7 +309,9 @@ useEffect(() => {
                       Feel free to chat or call us directly
                     </p>
                   </div>
-                  <span className="text-3xl font-semibold">{data.price} PKR</span>
+                  <span className="text-3xl font-semibold">
+                    {data.price} PKR
+                  </span>
                 </div>
                 <div className="w-6/6 flex justify-center flex-col m-5 p-5 rounded-lg bg-white">
                   <div className="flex flex-col gap-5 pb-5">
@@ -304,40 +336,75 @@ useEffect(() => {
                     maxDate={addDays(new Date(), 30)}
                   />
                   <div className="flex justify-between  ">
-
-                  <div className="border flex p-1 rounded-md">
-                        <label className="text-sm" htmlFor="hour">Pick up:</label>
-                        <select id="hour" className="focus:outline-none" onChange={(e) => setCarDetails((prevState) => ({ ...prevState, pickUpHour: e.target.value }))} value={carDetails.pickUpHour}>
-                          {hours.map((hour) => (
-                            <React.Fragment key={hour}>
-                              <option value={`${hour}:00 AM`} className="text-[#849095]">{`${hour}:00 AM`}</option>
-                            </React.Fragment>
-                          ))}
-                          {hours.map((hour) => (
-                            <React.Fragment key={hour}>
-                              <option value={`${hour}:00 PM`} className="text-[#849095]">{`${hour}:00 PM`}</option>
-                            </React.Fragment>
-                          ))}
-                        </select>
-                        {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
+                    <div className="border flex p-1 rounded-md">
+                      <label className="text-sm" htmlFor="hour">
+                        Pick up:
+                      </label>
+                      <select
+                        id="hour"
+                        className="focus:outline-none"
+                        onChange={(e) =>
+                          setCarDetails((prevState) => ({
+                            ...prevState,
+                            pickUpHour: e.target.value,
+                          }))
+                        }
+                        value={carDetails.pickUpHour}
+                      >
+                        {hours.map((hour) => (
+                          <React.Fragment key={hour}>
+                            <option
+                              value={`${hour}:00 AM`}
+                              className="text-[#849095]"
+                            >{`${hour}:00 AM`}</option>
+                          </React.Fragment>
+                        ))}
+                        {hours.map((hour) => (
+                          <React.Fragment key={hour}>
+                            <option
+                              value={`${hour}:00 PM`}
+                              className="text-[#849095]"
+                            >{`${hour}:00 PM`}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                      {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
                     </div>
                     <div className=" border flex p-1 rounded-md">
-                        <label className="text-sm" htmlFor="hour2">Drop off:</label>
-                        <select id="hour2" className="focus:outline-none" onChange={(e) => setCarDetails((prevState) => ({ ...prevState, dropOffHour: e.target.value }))} value={carDetails.dropOffHour}>
-                          {hours.map((hour) => (
-                            <React.Fragment key={hour}>
-                              <option value={`${hour}:00 AM`} className="text-[#849095]">{`${hour}:00 AM`}</option>
-                            </React.Fragment>
-                          ))}
-                          {hours.map((hour) => (
-                            <React.Fragment key={hour}>
-                              <option value={`${hour}:00 PM`} className="text-[#849095]"  >{`${hour}:00 PM`}</option>
-                            </React.Fragment>
-                          ))}
-                        </select>
-                        {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
+                      <label className="text-sm" htmlFor="hour2">
+                        Drop off:
+                      </label>
+                      <select
+                        id="hour2"
+                        className="focus:outline-none"
+                        onChange={(e) =>
+                          setCarDetails((prevState) => ({
+                            ...prevState,
+                            dropOffHour: e.target.value,
+                          }))
+                        }
+                        value={carDetails.dropOffHour}
+                      >
+                        {hours.map((hour) => (
+                          <React.Fragment key={hour}>
+                            <option
+                              value={`${hour}:00 AM`}
+                              className="text-[#849095]"
+                            >{`${hour}:00 AM`}</option>
+                          </React.Fragment>
+                        ))}
+                        {hours.map((hour) => (
+                          <React.Fragment key={hour}>
+                            <option
+                              value={`${hour}:00 PM`}
+                              className="text-[#849095]"
+                            >{`${hour}:00 PM`}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                      {/* {selectedHour && <p>Selected Hour: {selectedHour}</p>} */}
                     </div>
-                    </div>
+                  </div>
 
                   {/* <DateRange
                   editableDateInputs={true}
@@ -384,17 +451,25 @@ useEffect(() => {
                   </div>
                   <div className="flex justify-between">
                     <div className="flex gap-2">
-                      <input type="checkbox" onChange={(e)=> setCarDetails(prevState => ({...prevState, driver:e.target.checked}))}/>
+                      <input
+                        type="checkbox"
+                        onChange={(e) =>
+                          setCarDetails((prevState) => ({
+                            ...prevState,
+                            driver: e.target.checked,
+                          }))
+                        }
+                      />
                       <span className="text-sm">Driver</span>
                     </div>
                     <span className="text-sm">{data.driver} PKR</span>
                   </div>
-                  {totalPrice>0 &&
-                  <div className="flex justify-between -t-2 -dashed mt-2 pt-2">
-                    <span className="text-2xl">Total</span>
-                    <span className="text-2xl">{totalPrice} PKR</span>
-                  </div>
-                  }
+                  {totalPrice > 0 && (
+                    <div className="flex justify-between -t-2 -dashed mt-2 pt-2">
+                      <span className="text-2xl">Total</span>
+                      <span className="text-2xl">{totalPrice} PKR</span>
+                    </div>
+                  )}
                 </div>
                 <div className="bg-[#E2F8CF] pl-10 py-5 flex justify-between rounded-b-lg items-center">
                   <button
@@ -402,7 +477,15 @@ useEffect(() => {
                     className={` py-3  rounded-lg bg-[#0069D9] hover:bg-[#0069D9] flex items-center gap-3 text-white px-6`}
                     onClick={makePayment}
                   >
-                    CHECKOUT {loading ? <img src="/spinner1.gif" className="w-8 h-8 rounded-full"/> : ""} 
+                    CHECKOUT{" "}
+                    {loading ? (
+                      <img
+                        src="/spinner1.gif"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </button>
                 </div>
               </div>
@@ -472,7 +555,9 @@ useEffect(() => {
                         Feel free to chat or call us directly
                       </p>
                     </div>
-                    <span className="text-3xl font-semibold">{data.price} PKR</span>
+                    <span className="text-3xl font-semibold">
+                      {data.price} PKR
+                    </span>
                   </div>
                   <div className="w-6/6 flex justify-center flex-col m-5 p-5 rounded-lg bg-white">
                     <div className="flex flex-col gap-5 pb-5">
@@ -526,17 +611,25 @@ useEffect(() => {
                     </div>
                     <div className="flex justify-between">
                       <div className="flex gap-2">
-                        <input type="checkbox" onChange={(e)=> setCarDetails(prevState => ({...prevState, driver:e.target.checked}))}  />
+                        <input
+                          type="checkbox"
+                          onChange={(e) =>
+                            setCarDetails((prevState) => ({
+                              ...prevState,
+                              driver: e.target.checked,
+                            }))
+                          }
+                        />
                         <span className="text-sm">Driver</span>
                       </div>
                       <span className="text-sm">{data.driver} PKR</span>
                     </div>
-                    {totalPrice>0 &&
-                    <div className="flex justify-between -t-2 -dashed mt-2 pt-2">
-                      <span className="text-2xl">Total</span>
-                      <span className="text-2xl">{totalPrice} PKR</span>
-                    </div>
-                    }
+                    {totalPrice > 0 && (
+                      <div className="flex justify-between -t-2 -dashed mt-2 pt-2">
+                        <span className="text-2xl">Total</span>
+                        <span className="text-2xl">{totalPrice} PKR</span>
+                      </div>
+                    )}
                   </div>
                   <div className="bg-[#E2F8CF] pl-10 py-5 flex justify-between rounded-b-lg items-center">
                     <button

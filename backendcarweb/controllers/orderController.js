@@ -233,4 +233,27 @@ const allOrder = async (req, res) => {
 
 module.exports = allOrder;
 
-module.exports = { order, allOrder, getSingleOrder, sendEmail };
+const allBookingsByUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const bookings = await Order.find({ user: id }).populate("car");
+
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No bookings found for the user.", success: false });
+    }
+
+    res.json({ bookings, success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
+module.exports = {
+  order,
+  allOrder,
+  getSingleOrder,
+  sendEmail,
+  allBookingsByUser,
+};

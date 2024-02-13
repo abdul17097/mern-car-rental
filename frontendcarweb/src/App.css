@@ -16,3 +16,12 @@ background: linear-gradient(90deg, rgba(231,230,239,0.9725140056022409) 0%, rgba
     background-color: #1AA9E5;
     color:white;
 }
+
+.search_bg_image{
+    background-image: url('../../../public/dubaicity.jpg');
+    background-size: cover;
+    /* background-origin: border-box; */
+    position: relative;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+}

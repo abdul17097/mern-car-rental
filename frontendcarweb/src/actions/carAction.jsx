@@ -23,7 +23,6 @@ export const fetchCar = (params) => async (dispatch) => {
     );
 
     const data = await response.json();
-    console.log(data);
     dispatch({ type: CAR_SEARCH_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: CAR_SEARCH_FAIL, payload: "Something went wrong!" });
@@ -49,7 +48,6 @@ export const addCar = (formData) => async (dispatch) => {
 
       const data = await response.json();
       imageUrl = data.secure_url;
-      console.log(imageUrl);
 
       // Make the second API call with the formData and imageUrl
       const { data: datas } = await axios.post(
@@ -62,8 +60,6 @@ export const addCar = (formData) => async (dispatch) => {
           headers: { "Content-Type": "application/json" },
         }
       );
-
-      console.log(datas);
     }
   } catch (error) {
     // Handle errors

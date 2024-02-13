@@ -26,8 +26,6 @@ export const Sidebar = ({ filteredList }) => {
     });
   };
 
-  console.log(selectedOption, priceRange, selectedColors);
-
   return (
     <div className="border px-2 flex flex-col">
       <div className="flex gap-2 items-center text-blue-400 pt-3">
