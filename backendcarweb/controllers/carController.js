@@ -128,6 +128,66 @@ const updateRecords = async (req, res) => {
   } catch (error) {}
 };
 
+const updateCar = async (req, res) => {
+  try {
+    const carId = req.params.id; // Extract car ID from request parameters
+    console.log(carId);
+    const car = await Car.findById(carId);
+    if (car) {
+      const {
+        AC,
+        color,
+        catagory,
+        name,
+        mileage,
+        transmission,
+        door,
+        feulType,
+        price,
+        reverseCamera,
+        seat,
+        bluetooth,
+        driver,
+        wheel,
+        climateControl,
+      } = req.body;
+
+      const updateOperation = {
+        $set: {
+          AC,
+          color,
+          catagory,
+          name,
+          mileage,
+          transmission,
+          door,
+          feulType,
+          price,
+          reverseCamera,
+          seat,
+          bluetooth,
+          driver,
+          wheel,
+          climateControl,
+        },
+        // Update all records in the Car collection
+      };
+      const result = await Car.updateOne({ _id: carId }, updateOperation);
+      // Check the result and send a response
+      if (result) {
+        res
+          .status(200)
+          .json({ message: `Car Updated Successfully`, success: true });
+      } else {
+        res
+          .status(500)
+          .json({ message: "Failed to update records", success: false });
+      }
+    } else {
+      res.status(404).json({ message: "Car not found", success: false });
+    }
+  } catch (error) {}
+};
 module.exports = {
   createCar,
   allCar,
@@ -136,4 +196,5 @@ module.exports = {
   deleteCars,
   carCatagory,
   updateRecords,
+  updateCar
 };
