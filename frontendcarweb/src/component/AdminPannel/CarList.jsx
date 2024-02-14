@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCar, getAllCar } from "../../actions/carAction";
 import { FaEdit } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 export const CarList = () => {
   const { cars, loading } = useSelector((state) => state.carReducer);
@@ -21,8 +22,13 @@ export const CarList = () => {
     setPage((prevPage) => prevPage - 1); // Move to the previous page
   };
 
-  const handleDelete = (id) => {
-    dispatch(deleteCar(id));
+ const handleDelete = (userId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (confirmed) {
+      dispatch(deleteCar(userId));
+    }
   };
   // Calculate the start and end index of the current page
   const startIndex = (page - 1) * itemsPerPage;
@@ -90,7 +96,9 @@ export const CarList = () => {
                   <td className="px-6 py-2">{car.feulType}</td>
                   <td className="px-6 py-2 flex  gap-5 text-2xl text-blue-400 mt-4">
                     <span className="">
-                      <FaEdit />
+                      <NavLink to={`/updatecar/${car._id}`}>
+                        <FaEdit />
+                      </NavLink>
                     </span>
                     <button onClick={() => handleDelete(car._id)} className="">
                       <MdDelete />
