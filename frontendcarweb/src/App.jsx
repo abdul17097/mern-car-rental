@@ -26,6 +26,7 @@ import { CarList } from "./component/AdminPannel/CarList";
 import NotFound from "./component/NotFound";
 import SearchPage from "./component/Screen/SearchPage";
 import Cart from "./component/Cart";
+import UpdateCar from "./component/AdminPannel/UpdateCar";
 function App() {
   const dispatch = useDispatch();
 
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/*" element={<Dashboard />} />
                 <Route path="/cars" element={<CarList />} />
                 <Route path="/users" element={<User />} />
+                <Route path="/updatecar/:id" element={<UpdateCar />} />
               </Routes>
             </div>
           </div>
