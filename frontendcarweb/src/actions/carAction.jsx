@@ -85,6 +85,7 @@ export const getAllCar = () => async (dispatch) => {
       }
     );
     const { cars } = await res.json();
+    console.log(cars);
     dispatch({ type: CAR_LIST_SUCCESS, payload: cars });
   } catch (error) {
     dispatch({ type: CAR_LIST_FAIL, payload: error.message });
