@@ -8,6 +8,9 @@ import {
   CAR_SEARCH_FAIL,
   CAR_SEARCH_REQUEST,
   CAR_SEARCH_SUCCESS,
+  CAR_UPDATE_FAIL,
+  CAR_UPDATE_REQUEST,
+  CAR_UPDATE_SUCCESS,
 } from "../ActionTypes/carActionTypes";
 
 const initialState = {
@@ -71,6 +74,23 @@ export const carReducer = (state = initialState, action) => {
         cars: filterCarList,
       };
     case CAR_DELETE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+      case CAR_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CAR_UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+      };
+    case CAR_UPDATE_FAIL:
       return {
         ...state,
         loading: false,
