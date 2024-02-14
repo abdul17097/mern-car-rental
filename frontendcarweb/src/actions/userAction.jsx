@@ -24,15 +24,17 @@ export const userLogin =
     try {
       dispatch({ type: USER_LOGIN_REQUEST });
 
-      const { data } = await axios.post(
-        "https://mern-car-rental-alpha.vercel.app/api/login",
-        {
-          email,
-          password,
-        },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const response = await fetch("https://mern-car-rental-alpha.vercel.app/api/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ email, password })
+});
 
+const data = await response.json();
+
+      
       if (data.success === true) {
         localStorage.setItem("userInfo", JSON.stringify(data.data));
         toast.success("Login Successfully");
