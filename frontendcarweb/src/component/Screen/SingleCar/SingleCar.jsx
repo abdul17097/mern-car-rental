@@ -65,6 +65,7 @@ export const SingleCar = () => {
           }
         );
         const datas = await response.json();
+        console.log(datas)
         setData(datas.car);
         setTotalPrice(datas.car.price); // Initialize totalPrice with the base price
         setCarDetails((prevState) => ({
