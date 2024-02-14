@@ -9,6 +9,9 @@ import {
   CAR_DELETE_REQUEST,
   CAR_DELETE_SUCCESS,
   CAR_DELETE_FAIL,
+  CAR_UPDATE_REQUEST,
+  CAR_UPDATE_SUCCESS,
+  CAR_UPDATE_FAIL,
 } from "../ActionTypes/carActionTypes";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -113,5 +116,47 @@ export const deleteCar = (id) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: CAR_DELETE_FAIL, payload: "Something went wrong" });
+  }
+};
+
+export const updatecar = (formData, id) => async (dispatch) => {
+  try {
+    dispatch({ type: CAR_UPDATE_REQUEST });
+    const res = await fetch(`http://localhost:7000/api/updateCar/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        AC: formData.AC,
+        bluetooth: formData.bluetooth,
+        catagory: formData.catagory,
+        climateControl: formData.climateControl,
+        color: formData.color,
+        door: formData.door,
+        driver: formData.driver,
+        feulType: formData.feulType,
+        mileage: formData.mileage,
+        name: formData.name,
+        price: formData.price,
+        reverseCamera: formData.reverseCamera,
+        seat: formData.seat,
+        transmission: formData.transmission,
+        wheel: formData.wheel,
+      }),
+    });
+    const responseData = await res.json();
+    console.log(responseData);
+    if (responseData.success) {
+      toast.success("Car Updated successfully");
+      dispatch({ type: CAR_UPDATE_SUCCESS });
+    } else {
+      dispatch({ type: CAR_UPDATE_FAIL, payload: "Something went wrong" });
+      toast.error("Something went wrong");
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch({ type: CAR_UPDATE_FAIL, payload: "Something went wrong" });
+    toast.error("Something went wrong");
   }
 };
